@@ -3,40 +3,41 @@ import MapboxMap from "react-map-gl";
 import { getCurrentLocation } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
+import { useMap } from "react-map-gl";
 
 export default function Home() {
-  const [mapCoordinates, setMapCoordinates] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
+  const [initialState, setInitialState] = useState({});
+  const [permissionGranted, setPermissionGranted] = useState(false);
   useEffect(() => {
-    requestCurrentLocation();
+    loadInitialState();
   }, []);
-  async function requestCurrentLocation() {
+  const { mainMap } = useMap();
+  async function flyToCurrentPosition() {
     try {
-      const currentLocation = await getCurrentLocation();
-      console.log({ currentLocation });
-      setMapCoordinates(currentLocation);
+      const { latitude, longitude } = await getCurrentLocation();
+      mainMap?.flyTo({ center: [longitude, latitude] });
     } catch (error) {}
+  }
+  async function loadInitialState() {
+    const { latitude, longitude } = await getCurrentLocation();
+    setInitialState({ latitude, longitude, zoom: 14 });
+    setPermissionGranted(true);
   }
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
-      {mapCoordinates ? (
+      {permissionGranted ? (
         <MapboxMap
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
-          initialViewState={{
-            zoom: 14,
-          }}
-          latitude={mapCoordinates.latitude}
-          longitude={mapCoordinates.longitude}
+          initialViewState={initialState}
           mapStyle="mapbox://styles/mapbox/streets-v9"
+          id="mainMap"
         />
       ) : (
         <h1>You must give permission to get your location </h1>
       )}
       <div
         className="absolute right-3 bottom-28"
-        onClick={requestCurrentLocation}
+        onClick={flyToCurrentPosition}
       >
         <FontAwesomeIcon
           icon={faLocationCrosshairs}

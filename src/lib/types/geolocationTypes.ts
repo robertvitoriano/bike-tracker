@@ -12,3 +12,11 @@ export interface Position {
   coords: Coordinates;
   timestamp: number;
 }
+
+export interface MapViewportProps {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+  maxZoom: number;
+  minZoom: number;
+}

@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 export function getCurrentLocation(): Promise<{
   latitude: number;
   longitude: number;
-} | null> {
+}> {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
