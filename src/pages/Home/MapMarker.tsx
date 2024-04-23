@@ -24,7 +24,7 @@ export function MapMarker({
       latitude={latitude}
       anchor={anchor}
       pitchAlignment="map"
-      offset={[0, 0]}
+      offset={[220, -900]}
     >
       {icon && <FontAwesomeIcon icon={icon} className={className} />}
       {img && <img src={img} />}
