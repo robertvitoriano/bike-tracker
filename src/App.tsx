@@ -4,7 +4,7 @@ export default function App() {
   return (
     <div className="flex flex-col w-screen items-center">
       <Map
-        mapboxAccessToken=
+        mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
         initialViewState={{
           longitude: -122.4,
           latitude: 37.8,
