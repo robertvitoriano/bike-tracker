@@ -2,20 +2,31 @@ import { useEffect, useState } from "react";
 import MapboxMap from "react-map-gl";
 import { getCurrentLocation } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBicycle,
+  faLocationCrosshairs,
+} from "@fortawesome/free-solid-svg-icons";
 import { useMap } from "react-map-gl";
+import { MapMarker } from "./MapMarker";
 
 export default function Home() {
   const [initialState, setInitialState] = useState({});
   const [permissionGranted, setPermissionGranted] = useState(false);
+  const [showUserLocationMarker, setShowUserLocationMarker] = useState(false);
+  const [userCurrentPosition, setUserCurrentPosition] = useState<{
+    latitude: number;
+    longitude: number;
+  }>({ latitude: 0, longitude: 0 });
   useEffect(() => {
     loadInitialState();
   }, []);
   const { mainMap } = useMap();
-  async function flyToCurrentPosition() {
+  async function flyToUserCurrentPosition() {
     try {
       const { latitude, longitude } = await getCurrentLocation();
       mainMap?.flyTo({ center: [longitude, latitude] });
+      setUserCurrentPosition({ latitude, longitude });
+      setShowUserLocationMarker(true);
     } catch (error) {}
   }
   async function loadInitialState() {
@@ -31,13 +42,21 @@ export default function Home() {
           initialViewState={initialState}
           mapStyle="mapbox://styles/mapbox/streets-v9"
           id="mainMap"
-        />
+        >
+          {showUserLocationMarker && (
+            <MapMarker
+              icon={faBicycle}
+              {...userCurrentPosition}
+              className="text-primary text-6xl"
+            />
+          )}
+        </MapboxMap>
       ) : (
         <h1>You must give permission to get your location </h1>
       )}
       <div
         className="absolute right-3 bottom-28"
-        onClick={flyToCurrentPosition}
+        onClick={flyToUserCurrentPosition}
       >
         <FontAwesomeIcon
           icon={faLocationCrosshairs}
