@@ -24,9 +24,18 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
     if (showUserLocationMarker) {
-      watchUserPostionChanges();
+      intervalId = setInterval(() => {
+        setUserCurrentPosition((prevPosition) => ({
+          latitude: prevPosition.latitude + 0.0005,
+          longitude: prevPosition.longitude,
+        }));
+      }, 500);
     }
+
+    return () => clearInterval(intervalId);
   }, [showUserLocationMarker]);
   const { mainMap } = useMap();
   async function flyToUserCurrentPosition() {
