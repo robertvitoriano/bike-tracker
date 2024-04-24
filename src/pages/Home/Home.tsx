@@ -30,10 +30,16 @@ export default function Home() {
   const { mainMap } = useMap();
   async function flyToUserCurrentPosition() {
     try {
-      const { latitude, longitude } = await getCurrentLocation();
-      mainMap?.flyTo({ center: [longitude, latitude] });
-      setUserCurrentPosition({ latitude, longitude });
-      setShowUserLocationMarker(true);
+      if (!showUserLocationMarker) {
+        const { latitude, longitude } = await getCurrentLocation();
+        mainMap?.flyTo({ center: [longitude, latitude] });
+        setUserCurrentPosition({ latitude, longitude });
+        setShowUserLocationMarker(true);
+        return;
+      }
+      mainMap?.flyTo({
+        center: [userCurrentPosition.longitude, userCurrentPosition.latitude],
+      });
     } catch (error) {}
   }
   async function loadInitialState() {
