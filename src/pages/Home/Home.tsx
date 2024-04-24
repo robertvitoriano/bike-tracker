@@ -17,9 +17,16 @@ export default function Home() {
     latitude: number;
     longitude: number;
   }>({ latitude: 0, longitude: 0 });
+  const [updatedTimes, setUpdatedTimes] = useState(0);
   useEffect(() => {
     loadInitialState();
   }, []);
+
+  useEffect(() => {
+    if (showUserLocationMarker) {
+      watchUserPostionChanges();
+    }
+  }, [showUserLocationMarker]);
   const { mainMap } = useMap();
   async function flyToUserCurrentPosition() {
     try {
@@ -34,8 +41,26 @@ export default function Home() {
     setInitialState({ latitude, longitude, zoom: 14 });
     setPermissionGranted(true);
   }
+  async function watchUserPostionChanges() {
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        setUserCurrentPosition({ latitude, longitude });
+        console.log({ positionUpdated: true, latitude, longitude });
+        setUpdatedTimes(updatedTimes + 1);
+      },
+      (error) => console.error(error)
+    );
+
+    return () => navigator.geolocation.clearWatch(watchId);
+  }
+
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
+      <h1 className="absolute top-20 left-auto z-50">
+        Updated Times: {updatedTimes}
+      </h1>
       {permissionGranted ? (
         <MapboxMap
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
@@ -47,7 +72,7 @@ export default function Home() {
             <MapMarker
               icon={faBicycle}
               {...userCurrentPosition}
-              className="text-primary text-6xl"
+              className="text-primary text-2xl cursor-pointer"
             />
           )}
         </MapboxMap>
