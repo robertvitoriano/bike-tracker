@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import MapboxMap from "react-map-gl";
+import MapboxMap, { NavigationControl } from "react-map-gl";
+
 import { getCurrentLocation } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -53,7 +54,7 @@ export default function Home() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         setUserCurrentPosition({ latitude, longitude });
-        console.log({ positionUpdated: true, latitude, longitude });
+        console.log({ position });
         setUpdatedTimes(updatedTimes + 1);
       },
       (error) => console.error(error)
@@ -81,6 +82,10 @@ export default function Home() {
               className="text-primary text-2xl cursor-pointer"
             />
           )}
+          <NavigationControl
+            position="bottom-left"
+            style={{ marginBottom: "4rem" }}
+          />
         </MapboxMap>
       ) : (
         <h1>You must give permission to get your location </h1>
