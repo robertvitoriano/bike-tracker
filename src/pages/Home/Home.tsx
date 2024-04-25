@@ -58,9 +58,16 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
-      <h1 className="absolute top-20 left-auto z-50">
-        Updated Times: {updatedTimes}
-      </h1>
+      {showUserLocationMarker && (
+        <>
+          <h1 className="absolute top-20 left-auto z-50">
+            Latitude: {updatedTimes}
+          </h1>
+          <h1 className="absolute top-24 left-auto z-50">
+            longitude: {updatedTimes}
+          </h1>
+        </>
+      )}
       {permissionGranted ? (
         <MapboxMap
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
