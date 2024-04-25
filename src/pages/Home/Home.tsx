@@ -18,7 +18,6 @@ export default function Home() {
     latitude: 0,
     longitude: 0,
   });
-  const [updatedTimes, setUpdatedTimes] = useState(0);
 
   useEffect(() => {
     loadInitialState();
@@ -42,7 +41,6 @@ export default function Home() {
         (position) => {
           const { latitude, longitude } = position.coords;
           setUserCurrentPosition({ latitude, longitude });
-          setUpdatedTimes((prev) => prev + 1);
         },
         (error) => {
           console.error("Error watching position:", error);
@@ -61,10 +59,10 @@ export default function Home() {
       {showUserLocationMarker && (
         <>
           <h1 className="absolute top-20 left-auto z-50">
-            Latitude: {updatedTimes}
+            Latitude: {userCurrentPosition.latitude}
           </h1>
           <h1 className="absolute top-24 left-auto z-50">
-            longitude: {updatedTimes}
+            longitude: {userCurrentPosition.longitude}
           </h1>
         </>
       )}
