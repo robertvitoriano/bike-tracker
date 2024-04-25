@@ -25,6 +25,7 @@ export default function Home() {
   const [selectedLabel, setSelectedLabel] = useState<mapStyleType>(
     layers.STREET.url
   );
+  //@ts-ignore
   const [userPath, setUserPath] = useState<[[number, number]]>([]);
   const { mainMap } = useMap();
   const pathRef = useRef(null);
@@ -50,6 +51,13 @@ export default function Home() {
         (position) => {
           const { latitude, longitude } = position.coords;
           setUserCurrentPosition({ latitude, longitude });
+          const pointAlreadyInUserPath = userPath.some(
+            ([alreadyComputedLongitude, alreadyComputedLatitude]) =>
+              alreadyComputedLatitude === latitude &&
+              alreadyComputedLongitude === longitude
+          );
+          if (pointAlreadyInUserPath) return;
+          //@ts-ignore
           setUserPath((prevPath) => [...prevPath, [longitude, latitude]]);
         },
         (error) => {
@@ -91,6 +99,7 @@ export default function Home() {
               properties: {},
               geometry: { type: "LineString", coordinates: userPath },
             }}
+            //@ts-ignore
             ref={pathRef}
           >
             <Layer
