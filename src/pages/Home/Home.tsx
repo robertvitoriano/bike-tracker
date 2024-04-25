@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import MapboxMap, { NavigationControl } from "react-map-gl";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBicycle,
-  faLocationCrosshairs,
-} from "@fortawesome/free-solid-svg-icons";
+import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { useMap } from "react-map-gl";
 import { MapMarker } from "./MapMarker";
 import { getCurrentLocation } from "@/lib/utils";
