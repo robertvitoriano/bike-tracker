@@ -82,13 +82,13 @@ export default function Home() {
           )}
           <NavigationControl
             position="bottom-left"
-            style={{ marginBottom: "4rem" }}
+            style={{ position: "absolute", left: "0.75rem", bottom: "8rem" }}
           />
         </MapboxMap>
       ) : (
         <h1>You must give permission to get your location </h1>
       )}
-      <div className="absolute right-3 bottom-28">
+      <div className="absolute right-3 bottom-32">
         <FontAwesomeIcon
           icon={faLocationCrosshairs}
           className="text-5xl text-primary cursor-pointer"
