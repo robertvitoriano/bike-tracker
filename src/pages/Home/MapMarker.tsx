@@ -8,6 +8,7 @@ interface UserLocationMarkerProps {
   latitude: number;
   longitude: number;
   anchor?: any;
+  children?: any;
 }
 
 export function MapMarker({
@@ -17,6 +18,7 @@ export function MapMarker({
   latitude,
   longitude,
   anchor = "top",
+  children,
 }: UserLocationMarkerProps) {
   return (
     <Marker
@@ -27,6 +29,7 @@ export function MapMarker({
     >
       {icon && <FontAwesomeIcon icon={icon} className={className} />}
       {img && <img src={img} />}
+      {children && children}
     </Marker>
   );
 }

@@ -84,11 +84,9 @@ export default function Home() {
           id="mainMap"
         >
           {showUserLocationMarker && (
-            <MapMarker
-              icon={faBicycle}
-              {...userCurrentPosition}
-              className="text-primary text-2xl cursor-pointer"
-            />
+            <MapMarker {...userCurrentPosition}>
+              <div className="h-4 w-4 rounded-full bg-[#fcba03] border border-solid border-white"></div>
+            </MapMarker>
           )}
           <NavigationControl
             position="bottom-left"
