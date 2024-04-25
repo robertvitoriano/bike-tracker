@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import MapboxMap, { NavigationControl } from "react-map-gl";
-
+import { useEffect, useState, useRef } from "react";
+import MapboxMap, { NavigationControl, Source, Layer } from "react-map-gl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { useMap } from "react-map-gl";
@@ -26,10 +25,13 @@ export default function Home() {
   const [selectedLabel, setSelectedLabel] = useState<mapStyleType>(
     layers.STREET.url
   );
+  const [userPath, setUserPath] = useState<[[number, number]]>([]);
+  const { mainMap } = useMap();
+  const pathRef = useRef(null);
+
   useEffect(() => {
     loadInitialState();
   }, []);
-  const { mainMap } = useMap();
 
   async function loadInitialState() {
     try {
@@ -48,6 +50,7 @@ export default function Home() {
         (position) => {
           const { latitude, longitude } = position.coords;
           setUserCurrentPosition({ latitude, longitude });
+          setUserPath((prevPath) => [...prevPath, [longitude, latitude]]);
         },
         (error) => {
           console.error("Error watching position:", error);
@@ -80,6 +83,24 @@ export default function Home() {
           mapStyle={selectedLabel}
           id="mainMap"
         >
+          <Source
+            id="userPath"
+            type="geojson"
+            data={{
+              type: "Feature",
+              properties: {},
+              geometry: { type: "LineString", coordinates: userPath },
+            }}
+            ref={pathRef}
+          >
+            <Layer
+              id="userPath"
+              type="line"
+              source="userPath"
+              layout={{ "line-join": "round", "line-cap": "round" }}
+              paint={{ "line-color": "#007cbf", "line-width": 5 }}
+            />
+          </Source>
           {showUserLocationMarker && (
             <MapMarker {...userCurrentPosition}>
               <div className="h-4 w-4 rounded-full bg-[#fcba03] border border-solid border-white"></div>
