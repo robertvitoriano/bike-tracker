@@ -6,11 +6,11 @@ import { MapProvider } from "react-map-gl";
 export function AppLayout() {
   return (
     <div className="flex min-h-screen flex-col relative overflow-hidden">
-      <Header />
       <MapProvider>
+        <Header />
         <Outlet />
+        <BottomNavigation />
       </MapProvider>
-      <BottomNavigation />
     </div>
   );
 }
