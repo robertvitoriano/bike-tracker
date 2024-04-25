@@ -9,8 +9,16 @@ import {
 import { useMap } from "react-map-gl";
 import { MapMarker } from "./MapMarker";
 import { getCurrentLocation } from "@/lib/utils";
+import { layers } from "@/lib/layers";
+import { ImmutableLike } from "react-map-gl/dist/esm/types";
 
 export default function Home() {
+  type mapStyleType =
+    | string
+    | mapboxgl.Style
+    | ImmutableLike<mapboxgl.Style>
+    | undefined;
+
   const [initialState, setInitialState] = useState({});
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [showUserLocationMarker, setShowUserLocationMarker] = useState(false);
@@ -18,7 +26,9 @@ export default function Home() {
     latitude: 0,
     longitude: 0,
   });
-
+  const [selectedLabel, setSelectedLabel] = useState<mapStyleType>(
+    layers.STREET.url
+  );
   useEffect(() => {
     loadInitialState();
   }, []);
@@ -70,7 +80,7 @@ export default function Home() {
         <MapboxMap
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
           initialViewState={initialState}
-          mapStyle="mapbox://styles/mapbox/streets-v9"
+          mapStyle={selectedLabel}
           id="mainMap"
         >
           {showUserLocationMarker && (
@@ -88,7 +98,7 @@ export default function Home() {
       ) : (
         <h1>You must give permission to get your location </h1>
       )}
-      <div className="absolute right-3 bottom-32">
+      <div className="absolute right-3 bottom-32 flex flex-col gap-4">
         <FontAwesomeIcon
           icon={faLocationCrosshairs}
           className="text-5xl text-primary cursor-pointer"
@@ -97,6 +107,16 @@ export default function Home() {
             startTrackingUserPosition();
           }}
         />
+        <div className="">
+          {Object.entries(layers).map(([_, { label, url }]) => (
+            <div
+              onClick={() => setSelectedLabel(url)}
+              className={`p-4 hover:bg-secondary ${selectedLabel === url ? "bg-secondary" : "bg-primary"}`}
+            >
+              {label}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
