@@ -106,7 +106,7 @@ export default function Home() {
           {Object.entries(layers).map(([_, { label, url }]) => (
             <div
               onClick={() => setSelectedLabel(url)}
-              className={`p-4 hover:bg-secondary ${selectedLabel === url ? "bg-secondary" : "bg-primary"}`}
+              className={`p-4 hover:bg-secondary cursor-pointer ${selectedLabel === url ? "bg-secondary" : "bg-primary"}`}
             >
               {label}
             </div>
