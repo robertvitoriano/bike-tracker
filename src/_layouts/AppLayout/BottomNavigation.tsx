@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlay, faCirclePause } from "@fortawesome/free-solid-svg-icons";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
 export const BottomNavigation = () => {
+  let watchId: number;
   const addCoordinateToCurrentTrack = useUserTrackStore(
     (state: any) => state.addCoordinateToCurrentTrack
   );
@@ -43,6 +44,9 @@ export const BottomNavigation = () => {
   }, [isTrackingPosition]);
 
   function startTrackingUserPosition() {
+    if (isTrackingPosition) {
+      navigator.geolocation.clearWatch(watchId);
+    }
     toggleTrackingPosition();
   }
   return (
