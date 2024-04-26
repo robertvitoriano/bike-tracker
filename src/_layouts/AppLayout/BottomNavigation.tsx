@@ -20,7 +20,7 @@ export const BottomNavigation = () => {
   );
   useEffect(() => {
     if (isTrackingPosition) {
-      navigator.geolocation.watchPosition(
+      const watchId = navigator.geolocation.watchPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           const pointAlreadyInUserPath = userCurrentTrack.some(
@@ -38,6 +38,7 @@ export const BottomNavigation = () => {
           console.error("Error watching position:", error);
         }
       );
+      return () => navigator.geolocation.clearWatch(watchId);
     }
   }, [isTrackingPosition]);
 
