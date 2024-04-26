@@ -21,7 +21,7 @@ export const BottomNavigation = () => {
   );
   useEffect(() => {
     if (isTrackingPosition) {
-      const watchId = navigator.geolocation.watchPosition(
+      watchId = navigator.geolocation.watchPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           const pointAlreadyInUserPath = userCurrentTrack.some(
