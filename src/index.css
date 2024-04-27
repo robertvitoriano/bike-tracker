@@ -74,3 +74,26 @@
       @apply bg-background text-foreground;
     }
   }
+
+  .pulse {
+    @apply animate-pulse;
+  }
+
+  .pulse::after {
+    content: '';
+    animation: pulse 2s infinite alternate-reverse;
+  }
+  @keyframes pulse {
+    0% {
+      transform: scale(0.5);
+    }
+    30% {
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1.0);
+    }
+    100% {
+      transform: scale(1.2);
+    }
+  }

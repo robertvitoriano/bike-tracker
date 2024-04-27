@@ -19,6 +19,13 @@ export const BottomNavigation = () => {
   const setUserCurrentPosition = useUserTrackStore(
     (state: any) => state.setUserCurrentPosition
   );
+  const toggleUserLocationMarker = useUserTrackStore(
+    (state: any) => state.toggleUserLocationMarker
+  );
+  const isUserLocationMarkerShowing = useUserTrackStore(
+    (state: any) => state.isUserLocationMarkerShowing
+  );
+
   useEffect(() => {
     if (isTrackingPosition) {
       watchId = navigator.geolocation.watchPosition(
@@ -47,10 +54,13 @@ export const BottomNavigation = () => {
     if (isTrackingPosition) {
       navigator.geolocation.clearWatch(watchId);
     }
+    if (!isUserLocationMarkerShowing) {
+      toggleUserLocationMarker();
+    }
     toggleTrackingPosition();
   }
   return (
-    <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50">
+    <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50 cursor pointer">
       <FontAwesomeIcon
         icon={isTrackingPosition ? faCirclePause : faCirclePlay}
         className="text-secondary text-4xl"

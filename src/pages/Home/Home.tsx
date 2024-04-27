@@ -18,7 +18,6 @@ export default function Home() {
 
   const [initialState, setInitialState] = useState({});
   const [permissionGranted, setPermissionGranted] = useState(false);
-  const [showUserLocationMarker, setShowUserLocationMarker] = useState(false);
 
   const [selectedLabel, setSelectedLabel] = useState<mapStyleType>(
     layers.STREET.url
@@ -34,6 +33,12 @@ export default function Home() {
   );
   const isTrackingPosition = useUserTrackStore(
     (state: any) => state.isTrackingPosition
+  );
+  const toggleUserLocationMarker = useUserTrackStore(
+    (state: any) => state.toggleUserLocationMarker
+  );
+  const isUserLocationMarkerShowing = useUserTrackStore(
+    (state: any) => state.isUserLocationMarkerShowing
   );
   const { mainMap } = useMap();
   const pathRef = useRef(null);
@@ -58,9 +63,15 @@ export default function Home() {
     mainMap?.flyTo({ center: [longitude, latitude] });
   }
 
+  async function handleUserTracking() {
+    flyToUserCurrentPosition();
+    if (!isUserLocationMarkerShowing) {
+      toggleUserLocationMarker();
+    }
+  }
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
-      {showUserLocationMarker && (
+      {isUserLocationMarkerShowing && (
         <>
           <h1 className="absolute top-20 left-auto z-50">
             Latitude: {userCurrentPosition.latitude}
@@ -98,9 +109,11 @@ export default function Home() {
               />
             </Source>
           )}
-          {showUserLocationMarker && (
+          {isUserLocationMarkerShowing && (
             <MapMarker {...userCurrentPosition}>
-              <div className="h-4 w-4 rounded-full bg-[#007cbf] border border-solid border-white"></div>
+              <div
+                className={`${isTrackingPosition ? "pulse" : ""} h-4 w-4 rounded-full bg-[#007cbf] border border-solid border-white`}
+              ></div>
             </MapMarker>
           )}
           <NavigationControl
@@ -115,10 +128,7 @@ export default function Home() {
         <FontAwesomeIcon
           icon={faLocationCrosshairs}
           className="text-5xl text-primary cursor-pointer"
-          onClick={() => {
-            flyToUserCurrentPosition();
-            setShowUserLocationMarker(true);
-          }}
+          onClick={handleUserTracking}
         />
         <div className="">
           {Object.entries(layers).map(([_, { label, url }]) => (

@@ -26,4 +26,9 @@ export const useUserTrackStore = create((set) => ({
       userCurrentPosition: { longitude, latitude },
     }));
   },
+  isUserLocationMarkerShowing: false,
+  toggleUserLocationMarker: () =>
+    set((state) => ({
+      isUserLocationMarkerShowing: !state.isUserLocationMarkerShowing,
+    })),
 }));
