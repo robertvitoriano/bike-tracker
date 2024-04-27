@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlay, faCirclePause } from "@fortawesome/free-solid-svg-icons";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent } from "@/components/ui/popover";
 export const BottomNavigation = () => {
   let watchId: number;
   const addCoordinateToCurrentTrack = useUserTrackStore(
@@ -94,6 +90,7 @@ export const BottomNavigation = () => {
       );
     }
     cleanCurrentTrack();
+    setDisplayTrackingSavingPopOver(false);
   }
 
   function handleStartTrackingButtonClick() {
