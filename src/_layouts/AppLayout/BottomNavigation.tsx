@@ -60,10 +60,10 @@ export const BottomNavigation = () => {
     toggleTrackingPosition();
   }
   return (
-    <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50 cursor pointer">
+    <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50">
       <FontAwesomeIcon
         icon={isTrackingPosition ? faCirclePause : faCirclePlay}
-        className="text-secondary text-4xl"
+        className={` bg-white rounded-full text-4xl cursor-pointer ${isTrackingPosition ? "text-red-500" : "text-green-500"}`}
         onClick={startTrackingUserPosition}
       />
     </div>
