@@ -1,9 +1,7 @@
 import { create } from "zustand";
 
 export const useUserTrackStore = create((set) => ({
-  userCurrentTrack: localStorage.getItem("track")
-    ? JSON.parse(localStorage.getItem("track"))
-    : [],
+  userCurrentTrack: [],
   isTrackingPosition: false,
   toggleTrackingPosition: () =>
     set((state) => ({
@@ -11,10 +9,6 @@ export const useUserTrackStore = create((set) => ({
     })),
   addCoordinateToCurrentTrack: ([longitude, latitude]) =>
     set((state) => {
-      localStorage.setItem(
-        "track",
-        JSON.stringify([...state.userCurrentTrack, [longitude, latitude]])
-      );
       return {
         userCurrentTrack: [...state.userCurrentTrack, [longitude, latitude]],
       };
