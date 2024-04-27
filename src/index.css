@@ -76,13 +76,9 @@
   }
 
   .pulse {
-    @apply animate-pulse;
+    animation: pulse 1s infinite;
   }
 
-  .pulse::after {
-    content: '';
-    animation: pulse 2s infinite alternate-reverse;
-  }
   @keyframes pulse {
     0% {
       transform: scale(0.5);
