@@ -13,6 +13,12 @@ export const useUserTrackStore = create((set) => ({
         userCurrentTrack: [...state.userCurrentTrack, [longitude, latitude]],
       };
     }),
+  cleanCurrentTrack: () =>
+    set(() => {
+      return {
+        userCurrentTrack: [],
+      };
+    }),
   userCurrentPosition: { latitude: 0, longitude: 0 },
   setUserCurrentPosition: ({ longitude, latitude }) => {
     console.log("TRY TO SET USER CURRENT POSITIION", { longitude, latitude });
