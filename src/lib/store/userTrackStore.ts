@@ -3,7 +3,7 @@ import { create } from "zustand";
 export const useUserTrackStore = create((set) => ({
   userCurrentTrack: [],
   isTrackingPosition: false,
-  selectedSaveTrack: {},
+  selectedSaveTrack: null,
   selectSavedTrack: (savedTrack) =>
     set(() => ({
       selectedSaveTrack: savedTrack,
@@ -22,6 +22,12 @@ export const useUserTrackStore = create((set) => ({
     set(() => {
       return {
         userCurrentTrack: [],
+      };
+    }),
+  cleanSelectedTrack: () =>
+    set(() => {
+      return {
+        selectedSaveTrack: null,
       };
     }),
   userCurrentPosition: { latitude: 0, longitude: 0 },

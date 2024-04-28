@@ -40,6 +40,9 @@ export const BottomNavigation = () => {
   const cleanCurrentTrack = useUserTrackStore(
     (state: any) => state.cleanCurrentTrack
   );
+  const cleanSelectedTrack = useUserTrackStore(
+    (state: any) => state.cleanSelectedTrack
+  );
   const displayTrackSavingPopOver = useDialogStore(
     (state: any) => state.displayTrackSavingPopOver
   );
@@ -109,6 +112,7 @@ export const BottomNavigation = () => {
   }
 
   function handleStartTrackingButtonClick() {
+    cleanCurrentTrack();
     toggleTrackingPosition();
     if (!isTrackingPosition) {
       startTrackingUserPosition();
