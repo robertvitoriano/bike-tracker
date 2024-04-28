@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useDialogStore } from "@/lib/store/useDialogStore";
 export const BottomNavigation = () => {
   let watchId: number;
   const addCoordinateToCurrentTrack = useUserTrackStore(
@@ -39,8 +40,12 @@ export const BottomNavigation = () => {
   const cleanCurrentTrack = useUserTrackStore(
     (state: any) => state.cleanCurrentTrack
   );
-  const [displayTrackSavingPopOver, setDisplayTrackingSavingPopOver] =
-    useState(false);
+  const displayTrackSavingPopOver = useDialogStore(
+    (state: any) => state.displayTrackSavingPopOver
+  );
+  const toggleTrackSavingPopOver = useDialogStore(
+    (state: any) => state.toggleTrackSavingPopOver
+  );
   const [newTrackTitle, setNewTrackTitle] = useState("");
 
   useEffect(() => {
@@ -100,7 +105,7 @@ export const BottomNavigation = () => {
     }
     cleanCurrentTrack();
 
-    setDisplayTrackingSavingPopOver(false);
+    toggleTrackSavingPopOver();
   }
 
   function handleStartTrackingButtonClick() {
@@ -111,7 +116,7 @@ export const BottomNavigation = () => {
     }
   }
   function handleStopTrackingButtonClick() {
-    setDisplayTrackingSavingPopOver(true);
+    toggleTrackSavingPopOver();
     toggleTrackingPosition();
   }
 

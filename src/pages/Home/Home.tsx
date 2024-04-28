@@ -8,6 +8,7 @@ import { getCurrentLocation } from "@/lib/utils";
 import { layers } from "@/lib/layers";
 import { ImmutableLike } from "react-map-gl/dist/esm/types";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
+import { useDialogStore } from "@/lib/store/useDialogStore";
 
 export default function Home() {
   type mapStyleType =
@@ -40,6 +41,10 @@ export default function Home() {
   const isUserLocationMarkerShowing = useUserTrackStore(
     (state: any) => state.isUserLocationMarkerShowing
   );
+  const displayTrackSavingPopOver = useDialogStore(
+    (state: any) => state.displayTrackSavingPopOver
+  );
+
   const { mainMap } = useMap();
   const pathRef = useRef(null);
 
@@ -71,15 +76,16 @@ export default function Home() {
   }
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
-      {isUserLocationMarkerShowing && (
-        <>
-          <h1 className="absolute top-20 left-auto z-50">
-            Latitude: {userCurrentPosition.latitude}
-          </h1>
-          <h1 className="absolute top-24 left-auto z-50">
-            longitude: {userCurrentPosition.longitude}
-          </h1>
-        </>
+      {isTrackingPosition && (
+        <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
+          <h1>Latitude: {userCurrentPosition.latitude}</h1>
+          <h1>longitude: {userCurrentPosition.longitude}</h1>
+        </div>
+      )}
+      {!isTrackingPosition && !displayTrackSavingPopOver && (
+        <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
+          <h1>Open saved Tracks</h1>
+        </div>
       )}
       {permissionGranted ? (
         <MapboxMap
