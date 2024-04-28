@@ -2,7 +2,18 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlay, faCirclePause } from "@fortawesome/free-solid-svg-icons";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
-import { Popover, PopoverContent } from "@/components/ui/popover";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 export const BottomNavigation = () => {
   let watchId: number;
   const addCoordinateToCurrentTrack = useUserTrackStore(
@@ -100,7 +111,7 @@ export const BottomNavigation = () => {
       return;
     }
   }
-  function handleStopTrackingButtonClick() {
+  function stopTrackingButtonClick() {
     setDisplayTrackingSavingPopOver(true);
     toggleTrackingPosition();
   }
@@ -108,11 +119,38 @@ export const BottomNavigation = () => {
     <>
       <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50">
         {isTrackingPosition ? (
-          <FontAwesomeIcon
-            icon={faCirclePause}
-            className={`bg-white rounded-full text-4xl cursor-pointer text-red-500`}
-            onClick={handleStopTrackingButtonClick}
-          />
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <FontAwesomeIcon
+                  icon={faCirclePause}
+                  className={`bg-white rounded-full text-4xl cursor-pointer text-red-500`}
+                />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Save Track</DialogTitle>
+                <DialogDescription>Save your new track!</DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="trackTitle" className="text-right">
+                    Track Title
+                  </Label>
+                  <Input
+                    id="trackTitle"
+                    value={newTrackTitle}
+                    className="col-span-3"
+                    onChange={(e) => setNewTrackTitle(e.target.value)}
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button onClick={handleTrackSaving}>Save new track</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         ) : (
           <FontAwesomeIcon
             icon={faCirclePlay}
@@ -121,27 +159,6 @@ export const BottomNavigation = () => {
           />
         )}
       </div>
-      <Popover>
-        <PopoverContent>
-          {displayTrackSavingPopOver && (
-            <div>
-              <h2>Modal Title</h2>
-              <p>Modal content goes here.</p>
-              <input
-                value={newTrackTitle}
-                onChange={(e) => setNewTrackTitle(e.target.value)}
-              />
-
-              {newTrackTitle && (
-                <button onClick={handleTrackSaving}>Save</button>
-              )}
-              <button onClick={() => setDisplayTrackingSavingPopOver(false)}>
-                Discard
-              </button>
-            </div>
-          )}
-        </PopoverContent>
-      </Popover>
     </>
   );
 };
