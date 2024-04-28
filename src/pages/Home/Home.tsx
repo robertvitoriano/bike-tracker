@@ -101,7 +101,7 @@ export default function Home() {
     if (!isUserLocationMarkerShowing) toggleUserLocationMarker();
     const { coordinates } = track;
     const [longitude, latitude] = coordinates[0];
-    mainMap?.flyTo({ center: [longitude, latitude] });
+    mainMap?.flyTo({ center: [longitude, latitude], zoom: 19 });
     setOpenSavedTracksDrawer(false);
   }
 
