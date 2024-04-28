@@ -123,44 +123,44 @@ export const BottomNavigation = () => {
   return (
     <>
       <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50">
-        <Dialog open={displayTrackSavingPopOver}>
-          {isTrackingPosition ? (
-            <FontAwesomeIcon
-              icon={faCirclePause}
-              className={`bg-white rounded-full text-4xl cursor-pointer text-red-500`}
-              onClick={handleStopTrackingButtonClick}
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faCirclePlay}
-              className={`bg-white rounded-full text-4xl cursor-pointer text-green-500`}
-              onClick={handleStartTrackingButtonClick}
-            />
-          )}
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Save Track</DialogTitle>
-              <DialogDescription>Save your new track!</DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="trackTitle" className="text-right">
-                  Track Title
-                </Label>
-                <Input
-                  id="trackTitle"
-                  value={newTrackTitle}
-                  className="col-span-3"
-                  onChange={(e) => setNewTrackTitle(e.target.value)}
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button onClick={handleTrackSaving}>Save new track</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        {isTrackingPosition ? (
+          <FontAwesomeIcon
+            icon={faCirclePause}
+            className={`bg-white rounded-full text-4xl cursor-pointer text-red-500`}
+            onClick={handleStopTrackingButtonClick}
+          />
+        ) : (
+          <FontAwesomeIcon
+            icon={faCirclePlay}
+            className={`bg-white rounded-full text-4xl cursor-pointer text-green-500`}
+            onClick={handleStartTrackingButtonClick}
+          />
+        )}
       </div>
+      <Dialog open={displayTrackSavingPopOver}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Save Track</DialogTitle>
+            <DialogDescription>Save your new track!</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="trackTitle" className="text-right">
+                Track Title
+              </Label>
+              <Input
+                id="trackTitle"
+                value={newTrackTitle}
+                className="col-span-3"
+                onChange={(e) => setNewTrackTitle(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleTrackSaving}>Save new track</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

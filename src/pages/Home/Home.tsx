@@ -9,6 +9,13 @@ import { layers } from "@/lib/layers";
 import { ImmutableLike } from "react-map-gl/dist/esm/types";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
 import { useDialogStore } from "@/lib/store/useDialogStore";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 
 export default function Home() {
   type mapStyleType =
@@ -23,6 +30,9 @@ export default function Home() {
   const [selectedLabel, setSelectedLabel] = useState<mapStyleType>(
     layers.STREET.url
   );
+  const [openSavedTracksDrawer, setOpenSavedTracksDrawer] =
+    useState<boolean>(false);
+  const [savedTrackSelected, setSavedTrackSelected] = useState(false);
   const userCurrentTrack = useUserTrackStore(
     (state: any) => state.userCurrentTrack
   );
@@ -44,7 +54,12 @@ export default function Home() {
   const displayTrackSavingPopOver = useDialogStore(
     (state: any) => state.displayTrackSavingPopOver
   );
-
+  const selectedSaveTrack = useUserTrackStore(
+    (state: any) => state.selectedSaveTrack
+  );
+  const selectSavedTrack = useUserTrackStore(
+    (state: any) => state.selectSavedTrack
+  );
   const { mainMap } = useMap();
   const pathRef = useRef(null);
 
@@ -74,19 +89,67 @@ export default function Home() {
       toggleUserLocationMarker();
     }
   }
+  function getTrackToBeDisplayed() {
+    if (isTrackingPosition) {
+      return userCurrentTrack;
+    }
+    return selectedSaveTrack.coordinates;
+  }
+  function handleSavedTrackSelection(track) {
+    selectSavedTrack(track);
+    setSavedTrackSelected(true);
+    if (!isUserLocationMarkerShowing) toggleUserLocationMarker();
+    const { coordinates } = track;
+    const [longitude, latitude] = coordinates[0];
+    mainMap?.flyTo({ center: [longitude, latitude] });
+    setOpenSavedTracksDrawer(false);
+  }
+
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
+      <Drawer
+        direction="right"
+        open={openSavedTracksDrawer}
+        onClose={() => setOpenSavedTracksDrawer(false)}
+      >
+        <DrawerContent>
+          <div>
+            <DrawerHeader>
+              <DrawerTitle>Saved Tracks</DrawerTitle>
+              <DrawerDescription>
+                Select one of the tracks you saved
+              </DrawerDescription>
+              <ul>
+                {localStorage.getItem("tracks") &&
+                  JSON.parse(localStorage.getItem("tracks")).map((track) => (
+                    <li
+                      className="border-b-2 bg-white p-4 cursor-pointer"
+                      onClick={() => handleSavedTrackSelection(track)}
+                    >
+                      <h3>{track.title}</h3>
+                    </li>
+                  ))}
+              </ul>
+            </DrawerHeader>
+          </div>
+        </DrawerContent>
+      </Drawer>
       {isTrackingPosition && (
         <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
           <h1>Latitude: {userCurrentPosition.latitude}</h1>
           <h1>longitude: {userCurrentPosition.longitude}</h1>
         </div>
       )}
-      {!isTrackingPosition && !displayTrackSavingPopOver && (
-        <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
-          <h1>Open saved Tracks</h1>
-        </div>
-      )}
+      {!isTrackingPosition &&
+        !displayTrackSavingPopOver &&
+        !openSavedTracksDrawer && (
+          <div
+            onClick={() => setOpenSavedTracksDrawer(true)}
+            className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50"
+          >
+            <h1>Open saved Tracks</h1>
+          </div>
+        )}
       {permissionGranted ? (
         <MapboxMap
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
@@ -94,14 +157,17 @@ export default function Home() {
           mapStyle={selectedLabel}
           id="mainMap"
         >
-          {isTrackingPosition && (
+          {(isTrackingPosition || savedTrackSelected) && (
             <Source
               id="userPath"
               type="geojson"
               data={{
                 type: "Feature",
                 properties: {},
-                geometry: { type: "LineString", coordinates: userCurrentTrack },
+                geometry: {
+                  type: "LineString",
+                  coordinates: getTrackToBeDisplayed(),
+                },
               }}
               //@ts-ignore
               ref={pathRef}
