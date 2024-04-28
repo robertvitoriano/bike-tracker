@@ -9,7 +9,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -40,6 +39,10 @@ export const BottomNavigation = () => {
   const cleanCurrentTrack = useUserTrackStore(
     (state: any) => state.cleanCurrentTrack
   );
+  const [displayTrackSavingPopOver, setDisplayTrackingSavingPopOver] =
+    useState(false);
+  const [newTrackTitle, setNewTrackTitle] = useState("");
+
   useEffect(() => {
     if (isTrackingPosition) {
       watchId = navigator.geolocation.watchPosition(
@@ -63,11 +66,6 @@ export const BottomNavigation = () => {
       return () => navigator.geolocation.clearWatch(watchId);
     }
   }, [isTrackingPosition]);
-
-  const [displayTrackSavingPopOver, setDisplayTrackingSavingPopOver] =
-    useState(false);
-  const [newTrackTitle, setNewTrackTitle] = useState("");
-
   function startTrackingUserPosition() {
     if (isTrackingPosition) {
       navigator.geolocation.clearWatch(watchId);
@@ -101,6 +99,7 @@ export const BottomNavigation = () => {
       );
     }
     cleanCurrentTrack();
+
     setDisplayTrackingSavingPopOver(false);
   }
 
@@ -111,53 +110,51 @@ export const BottomNavigation = () => {
       return;
     }
   }
-  function stopTrackingButtonClick() {
+  function handleStopTrackingButtonClick() {
     setDisplayTrackingSavingPopOver(true);
     toggleTrackingPosition();
   }
+
   return (
     <>
       <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50">
-        {isTrackingPosition ? (
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>
-                <FontAwesomeIcon
-                  icon={faCirclePause}
-                  className={`bg-white rounded-full text-4xl cursor-pointer text-red-500`}
+        <Dialog open={displayTrackSavingPopOver}>
+          {isTrackingPosition ? (
+            <FontAwesomeIcon
+              icon={faCirclePause}
+              className={`bg-white rounded-full text-4xl cursor-pointer text-red-500`}
+              onClick={handleStopTrackingButtonClick}
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faCirclePlay}
+              className={`bg-white rounded-full text-4xl cursor-pointer text-green-500`}
+              onClick={handleStartTrackingButtonClick}
+            />
+          )}
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Save Track</DialogTitle>
+              <DialogDescription>Save your new track!</DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="trackTitle" className="text-right">
+                  Track Title
+                </Label>
+                <Input
+                  id="trackTitle"
+                  value={newTrackTitle}
+                  className="col-span-3"
+                  onChange={(e) => setNewTrackTitle(e.target.value)}
                 />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Save Track</DialogTitle>
-                <DialogDescription>Save your new track!</DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="trackTitle" className="text-right">
-                    Track Title
-                  </Label>
-                  <Input
-                    id="trackTitle"
-                    value={newTrackTitle}
-                    className="col-span-3"
-                    onChange={(e) => setNewTrackTitle(e.target.value)}
-                  />
-                </div>
               </div>
-              <DialogFooter>
-                <Button onClick={handleTrackSaving}>Save new track</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        ) : (
-          <FontAwesomeIcon
-            icon={faCirclePlay}
-            className={`bg-white rounded-full text-4xl cursor-pointer text-green-500`}
-            onClick={handleStartTrackingButtonClick}
-          />
-        )}
+            </div>
+            <DialogFooter>
+              <Button onClick={handleTrackSaving}>Save new track</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </>
   );
