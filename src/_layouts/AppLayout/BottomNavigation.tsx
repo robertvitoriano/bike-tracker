@@ -112,7 +112,7 @@ export const BottomNavigation = () => {
   }
 
   function handleStartTrackingButtonClick() {
-    cleanCurrentTrack();
+    cleanSelectedTrack();
     toggleTrackingPosition();
     if (!isTrackingPosition) {
       startTrackingUserPosition();
