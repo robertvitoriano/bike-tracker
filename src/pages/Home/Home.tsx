@@ -93,7 +93,7 @@ export default function Home() {
     if (isTrackingPosition) {
       return userCurrentTrack;
     }
-    return selectedSaveTrack.coordinates;
+    return selectedSaveTrack?.coordinates || [];
   }
   function handleSavedTrackSelection(track) {
     selectSavedTrack(track);
