@@ -17,7 +17,7 @@ import { useDialogStore } from "@/lib/store/useDialogStore";
 import { useMap } from "react-map-gl";
 export const BottomNavigation = () => {
   let watchId: number;
-
+  let tracktTimerId: NodeJS.Timeout;
   const [newTrackTitle, setNewTrackTitle] = useState("");
   const [displayPauseTrackPopOver, setDisplayPauseTrackPopOver] =
     useState(false);
@@ -48,6 +48,12 @@ export const BottomNavigation = () => {
   const cleanSelectedTrack = useUserTrackStore(
     (state: any) => state.cleanSelectedTrack
   );
+  const currentTrackTime = useUserTrackStore(
+    (state: any) => state.currentTrackTime
+  );
+  const setCurrentTrackTime = useUserTrackStore(
+    (state: any) => state.setCurrentTrackTime
+  );
   const displayTrackSavingPopOver = useDialogStore(
     (state: any) => state.displayTrackSavingPopOver
   );
@@ -59,6 +65,10 @@ export const BottomNavigation = () => {
 
   useEffect(() => {
     if (isTrackingPosition) {
+      tracktTimerId = setInterval(
+        () => setCurrentTrackTime(currentTrackTime + 1),
+        1000
+      );
       watchId = navigator.geolocation.watchPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
@@ -77,9 +87,13 @@ export const BottomNavigation = () => {
           console.error("Error watching position:", error);
         }
       );
-      return () => navigator.geolocation.clearWatch(watchId);
+      return () => {
+        stopTimer();
+        navigator.geolocation.clearWatch(watchId);
+      };
     }
   }, [isTrackingPosition]);
+
   function startTrackingUserPosition() {
     if (isTrackingPosition) {
       navigator.geolocation.clearWatch(watchId);
@@ -117,6 +131,10 @@ export const BottomNavigation = () => {
     toggleTrackSavingPopOver();
   }
 
+  function stopTimer() {
+    clearInterval(tracktTimerId);
+  }
+
   function handleStartTrackingButtonClick() {
     cleanSelectedTrack();
     toggleTrackingPosition();
@@ -128,6 +146,7 @@ export const BottomNavigation = () => {
   function handlePauseTrackingButtonClick() {
     setDisplayPauseTrackPopOver(true);
     toggleTrackingPosition();
+    stopTimer();
   }
   function handleResumeTrackingButtonClick() {
     toggleTrackingPosition();

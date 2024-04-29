@@ -59,6 +59,10 @@ export default function Home() {
   const selectSavedTrack = useUserTrackStore(
     (state: any) => state.selectSavedTrack
   );
+  const currentTrackTime = useUserTrackStore(
+    (state: any) => state.currentTrackTime
+  );
+
   const { mainMap } = useMap();
   const pathRef = useRef(null);
 
@@ -135,8 +139,9 @@ export default function Home() {
       </Drawer>
       {isTrackingPosition && (
         <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
-          <h1>Latitude: {userCurrentPosition.latitude}</h1>
-          <h1>longitude: {userCurrentPosition.longitude}</h1>
+          <h1>Time elapsed: {currentTrackTime}</h1>
+          {/* <h1>distance: {userCurrentPosition.longitude}</h1> */}
+          {/* <h1>speed: {userCurrentPosition.longitude}</h1> */}
         </div>
       )}
       {!isTrackingPosition &&
