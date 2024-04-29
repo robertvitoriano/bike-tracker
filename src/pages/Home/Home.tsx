@@ -16,7 +16,6 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-
 export default function Home() {
   type mapStyleType =
     | string

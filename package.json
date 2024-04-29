@@ -8,10 +8,13 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.tsx\"",
-    "android": "npm run build && npx cap run android"
+    "android": "npm run build && npx cap run android",
+    "sync": "npx cap sync",
+    "show-logs": "logkitty android 'console.log'"
   },
   "dependencies": {
     "@capacitor/android": "^6.0.0",
+    "@capacitor/background-runner": "^1.1.0",
     "@capacitor/core": "^6.0.0",
     "@capacitor/geolocation": "^6.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
