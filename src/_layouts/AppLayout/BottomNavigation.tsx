@@ -19,6 +19,8 @@ export const BottomNavigation = () => {
   let watchId: number;
 
   const [newTrackTitle, setNewTrackTitle] = useState("");
+  const [displayPauseTrackPopOver, setDisplayPauseTrackPopOver] =
+    useState(false);
   const addCoordinateToCurrentTrack = useUserTrackStore(
     (state: any) => state.addCoordinateToCurrentTrack
   );
@@ -123,9 +125,17 @@ export const BottomNavigation = () => {
       return;
     }
   }
-  function handleStopTrackingButtonClick() {
-    toggleTrackSavingPopOver();
+  function handlePauseTrackingButtonClick() {
+    setDisplayPauseTrackPopOver(true);
     toggleTrackingPosition();
+  }
+  function handleResumeTrackingButtonClick() {
+    toggleTrackingPosition();
+    setDisplayPauseTrackPopOver(false);
+  }
+  function handleTrackSaveButtonClick() {
+    toggleTrackSavingPopOver();
+    setDisplayPauseTrackPopOver(false);
   }
 
   return (
@@ -135,7 +145,7 @@ export const BottomNavigation = () => {
           <FontAwesomeIcon
             icon={faCirclePause}
             className={`bg-white rounded-full text-4xl cursor-pointer text-red-500`}
-            onClick={handleStopTrackingButtonClick}
+            onClick={handlePauseTrackingButtonClick}
           />
         ) : (
           <FontAwesomeIcon
@@ -167,6 +177,20 @@ export const BottomNavigation = () => {
           <DialogFooter>
             <Button onClick={handleTrackSaving}>Save new track</Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={displayPauseTrackPopOver}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Tracking pause</DialogTitle>
+            <DialogDescription>The tracking has been paused!</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <Button onClick={handleResumeTrackingButtonClick}>Resume</Button>
+            <Button onClick={handleTrackSaveButtonClick}>
+              Save current track
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     </>
