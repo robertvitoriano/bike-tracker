@@ -138,6 +138,11 @@ export const BottomNavigation = () => {
     setDisplayPauseTrackPopOver(false);
   }
 
+  function handleTrackDiscardButtonClick() {
+    cleanCurrentTrack();
+    setDisplayPauseTrackPopOver(false);
+  }
+
   return (
     <>
       <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50">
@@ -187,6 +192,9 @@ export const BottomNavigation = () => {
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <Button onClick={handleResumeTrackingButtonClick}>Resume</Button>
+            <Button onClick={handleTrackDiscardButtonClick}>
+              Discard track
+            </Button>
             <Button onClick={handleTrackSaveButtonClick}>
               Save current track
             </Button>
