@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Position } from "./types/geolocationTypes";
+import { Geolocation } from "@capacitor/geolocation";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
