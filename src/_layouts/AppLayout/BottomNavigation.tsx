@@ -14,8 +14,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useDialogStore } from "@/lib/store/useDialogStore";
+import { useMap } from "react-map-gl";
 export const BottomNavigation = () => {
   let watchId: number;
+
+  const [newTrackTitle, setNewTrackTitle] = useState("");
   const addCoordinateToCurrentTrack = useUserTrackStore(
     (state: any) => state.addCoordinateToCurrentTrack
   );
@@ -49,13 +52,15 @@ export const BottomNavigation = () => {
   const toggleTrackSavingPopOver = useDialogStore(
     (state: any) => state.toggleTrackSavingPopOver
   );
-  const [newTrackTitle, setNewTrackTitle] = useState("");
+
+  const { mainMap } = useMap();
 
   useEffect(() => {
     if (isTrackingPosition) {
       watchId = navigator.geolocation.watchPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
+          mainMap?.flyTo({ center: [longitude, latitude] });
           const pointAlreadyInUserPath = userCurrentTrack.some(
             ([alreadyComputedLongitude, alreadyComputedLatitude]) =>
               alreadyComputedLatitude === latitude &&
@@ -65,7 +70,6 @@ export const BottomNavigation = () => {
 
           setUserCurrentPosition({ longitude, latitude });
           addCoordinateToCurrentTrack([longitude, latitude]);
-          console.log("USER POSITION SHOULD UPDATE");
         },
         (error) => {
           console.error("Error watching position:", error);
