@@ -9,5 +9,6 @@ export interface GetUserTracksResponse {
 export async function getUserTracks() {
   const response = await api.get<GetUserTracksResponse>("/tracks");
 
+  console.log(response.data);
   return response.data;
 }

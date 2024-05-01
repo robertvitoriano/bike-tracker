@@ -6,19 +6,17 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { Button } from "@/components/ui/button";
-import { useDialogStore } from "@/lib/store/useDialogStore";
 import { useMap } from "react-map-gl";
+import { SaveTrackDialog } from "@/components/SaveTrackDialog";
+import { useDialogStore } from "@/lib/store/useDialogStore";
 export const BottomNavigation = () => {
   let watchId: number;
   let tracktTimerId: NodeJS.Timeout;
-  const [newTrackTitle, setNewTrackTitle] = useState("");
   const [displayPauseTrackPopOver, setDisplayPauseTrackPopOver] =
     useState(false);
   const addCoordinateToCurrentTrack = useUserTrackStore(
@@ -54,13 +52,9 @@ export const BottomNavigation = () => {
   const setCurrentTrackTime = useUserTrackStore(
     (state: any) => state.setCurrentTrackTime
   );
-  const displayTrackSavingPopOver = useDialogStore(
-    (state: any) => state.displayTrackSavingPopOver
-  );
   const toggleTrackSavingPopOver = useDialogStore(
     (state: any) => state.toggleTrackSavingPopOver
   );
-
   const { mainMap } = useMap();
 
   useEffect(() => {
@@ -103,34 +97,6 @@ export const BottomNavigation = () => {
     }
   }
 
-  function handleTrackSaving() {
-    if (localStorage.getItem("tracks")) {
-      localStorage.setItem(
-        "tracks",
-        JSON.stringify([
-          ...JSON.parse(localStorage.getItem("tracks")),
-          {
-            title: newTrackTitle,
-            coordinates: userCurrentTrack,
-          },
-        ])
-      );
-    } else {
-      localStorage.setItem(
-        "tracks",
-        JSON.stringify([
-          {
-            title: newTrackTitle,
-            coordinates: userCurrentTrack,
-          },
-        ])
-      );
-    }
-    cleanCurrentTrack();
-
-    toggleTrackSavingPopOver();
-  }
-
   function stopTimer() {
     clearInterval(tracktTimerId);
   }
@@ -164,6 +130,8 @@ export const BottomNavigation = () => {
 
   return (
     <>
+      <SaveTrackDialog />
+
       <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50">
         {isTrackingPosition ? (
           <FontAwesomeIcon
@@ -179,30 +147,6 @@ export const BottomNavigation = () => {
           />
         )}
       </div>
-      <Dialog open={displayTrackSavingPopOver}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Save Track</DialogTitle>
-            <DialogDescription>Save your new track!</DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="trackTitle" className="text-right">
-                Track Title
-              </Label>
-              <Input
-                id="trackTitle"
-                value={newTrackTitle}
-                className="col-span-3"
-                onChange={(e) => setNewTrackTitle(e.target.value)}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button onClick={handleTrackSaving}>Save new track</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
       <Dialog open={displayPauseTrackPopOver}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
