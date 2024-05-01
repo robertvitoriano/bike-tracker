@@ -1,6 +1,11 @@
 import { create } from "zustand";
-
-export const useAuthStore = create((set) => ({
+interface IAuthStore {
+  loggedUser: { name: string; email: string; username: string };
+  token: string;
+  setLoggedUser: Function;
+  setToken: Function;
+}
+export const useAuthStore = create<IAuthStore>((set) => ({
   loggedUser: null,
   token: "",
   setLoggedUser: (loggedUser) =>

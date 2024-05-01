@@ -24,7 +24,7 @@ export const SignUp = () => {
   const { mutateAsync: signUpFn } = useMutation({
     mutationFn: signUp,
   });
-  async function handleSignUp(data: SignInForm) {
+  async function handleSignUp(data: SignUpForm) {
     try {
       await signUpFn({
         name: data.name,
