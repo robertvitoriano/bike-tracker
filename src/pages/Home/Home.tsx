@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import MapboxMap, { NavigationControl, Source, Layer } from "react-map-gl";
+import { useMap } from "react-map-gl";
+import { ImmutableLike } from "react-map-gl/dist/esm/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
-import { useMap } from "react-map-gl";
 import { MapMarker } from "./MapMarker";
 import { getCurrentLocation } from "@/lib/utils";
 import { layers } from "@/lib/layers";
-import { ImmutableLike } from "react-map-gl/dist/esm/types";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
 import { useDialogStore } from "@/lib/store/useDialogStore";
 import {
@@ -16,6 +16,8 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import { env } from "./../../../env";
+
 export default function Home() {
   type mapStyleType =
     | string
@@ -140,8 +142,6 @@ export default function Home() {
       {isTrackingPosition && (
         <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
           <h1>Time elapsed: {currentTrackTime}</h1>
-          {/* <h1>distance: {userCurrentPosition.longitude}</h1> */}
-          {/* <h1>speed: {userCurrentPosition.longitude}</h1> */}
         </div>
       )}
       {!isTrackingPosition &&
@@ -156,7 +156,7 @@ export default function Home() {
         )}
       {permissionGranted ? (
         <MapboxMap
-          mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
+          mapboxAccessToken={env.VITE_MAPBOX_TOKEN}
           initialViewState={initialState}
           mapStyle={selectedLabel}
           id="mainMap"
