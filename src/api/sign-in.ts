@@ -5,7 +5,11 @@ export interface SignInBody {
   password: string;
 }
 export async function signIn({ email, password }: SignInBody) {
-  const loginResponse = await api.post("/users/login", { email, password });
+  const loginResponse = await api.post(
+    "/users/login",
+    { email, password },
+    { withCredentials: false }
+  );
   useAuthStore.getState().setToken(loginResponse.data.token);
   useAuthStore.getState().setLoggedUser(loginResponse.data.user);
 
