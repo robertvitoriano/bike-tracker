@@ -2,23 +2,16 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlay, faCirclePause } from "@fortawesome/free-solid-svg-icons";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog } from "@/components/ui/dialog";
 
-import { Button } from "@/components/ui/button";
 import { useMap } from "react-map-gl";
 import { SaveTrackDialog } from "@/components/SaveTrackDialog";
+import { PauseTrackingDialog } from "@/components/PauseTrackingDialog";
 import { useDialogStore } from "@/lib/store/useDialogStore";
 export const BottomNavigation = () => {
   let watchId: number;
   let tracktTimerId: NodeJS.Timeout;
-  const [displayPauseTrackPopOver, setDisplayPauseTrackPopOver] =
-    useState(false);
+
   const addCoordinateToCurrentTrack = useUserTrackStore(
     (state: any) => state.addCoordinateToCurrentTrack
   );
@@ -40,9 +33,7 @@ export const BottomNavigation = () => {
   const isUserLocationMarkerShowing = useUserTrackStore(
     (state: any) => state.isUserLocationMarkerShowing
   );
-  const cleanCurrentTrack = useUserTrackStore(
-    (state: any) => state.cleanCurrentTrack
-  );
+
   const cleanSelectedTrack = useUserTrackStore(
     (state: any) => state.cleanSelectedTrack
   );
@@ -52,8 +43,8 @@ export const BottomNavigation = () => {
   const setCurrentTrackTime = useUserTrackStore(
     (state: any) => state.setCurrentTrackTime
   );
-  const toggleTrackSavingPopOver = useDialogStore(
-    (state: any) => state.toggleTrackSavingPopOver
+  const togglePauseTrackPopOver = useDialogStore(
+    (state: any) => state.togglePauseTrackPopOver
   );
   const { mainMap } = useMap();
 
@@ -110,28 +101,13 @@ export const BottomNavigation = () => {
     }
   }
   function handlePauseTrackingButtonClick() {
-    setDisplayPauseTrackPopOver(true);
+    togglePauseTrackPopOver();
     toggleTrackingPosition();
     stopTimer();
   }
-  function handleResumeTrackingButtonClick() {
-    toggleTrackingPosition();
-    setDisplayPauseTrackPopOver(false);
-  }
-  function handleTrackSaveButtonClick() {
-    toggleTrackSavingPopOver();
-    setDisplayPauseTrackPopOver(false);
-  }
-
-  function handleTrackDiscardButtonClick() {
-    cleanCurrentTrack();
-    setDisplayPauseTrackPopOver(false);
-  }
 
   return (
-    <>
-      <SaveTrackDialog />
-
+    <Dialog>
       <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50">
         {isTrackingPosition ? (
           <FontAwesomeIcon
@@ -147,23 +123,8 @@ export const BottomNavigation = () => {
           />
         )}
       </div>
-      <Dialog open={displayPauseTrackPopOver}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Tracking pause</DialogTitle>
-            <DialogDescription>The tracking has been paused!</DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <Button onClick={handleResumeTrackingButtonClick}>Resume</Button>
-            <Button onClick={handleTrackDiscardButtonClick}>
-              Discard track
-            </Button>
-            <Button onClick={handleTrackSaveButtonClick}>
-              Save current track
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
+      <SaveTrackDialog />
+      <PauseTrackingDialog />
+    </Dialog>
   );
 };

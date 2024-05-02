@@ -6,4 +6,9 @@ export const useDialogStore = create((set) => ({
     set((state) => ({
       displayTrackSavingPopOver: !state.displayTrackSavingPopOver,
     })),
+  displayPauseTrackPopOver: false,
+  togglePauseTrackPopOver: () =>
+    set((state) => ({
+      displayPauseTrackPopOver: !state.displayPauseTrackPopOver,
+    })),
 }));

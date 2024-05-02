@@ -1,10 +1,10 @@
 import {
-  Dialog,
   DialogContent,
   DialogTitle,
   DialogDescription,
-} from "@radix-ui/react-dialog";
-import { Label } from "@radix-ui/react-label";
+  Dialog,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Button } from "./ui/button";
