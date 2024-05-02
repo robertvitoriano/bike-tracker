@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlay, faCirclePause } from "@fortawesome/free-solid-svg-icons";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
-import { Dialog } from "@/components/ui/dialog";
-
 import { useMap } from "react-map-gl";
 import { SaveTrackDialog } from "@/components/SaveTrackDialog";
 import { PauseTrackingDialog } from "@/components/PauseTrackingDialog";
@@ -107,7 +105,7 @@ export const BottomNavigation = () => {
   }
 
   return (
-    <Dialog>
+    <>
       <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50">
         {isTrackingPosition ? (
           <FontAwesomeIcon
@@ -125,6 +123,6 @@ export const BottomNavigation = () => {
       </div>
       <SaveTrackDialog />
       <PauseTrackingDialog />
-    </Dialog>
+    </>
   );
 };
