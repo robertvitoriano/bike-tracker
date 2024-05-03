@@ -52,15 +52,18 @@ export const BottomNavigation = () => {
         () => setCurrentTrackTime(currentTrackTime + 1),
         1000
       );
+      const tolerance = 0.0000001; // Adjust as needed based on your accuracy requirements
+
       watchId = navigator.geolocation.watchPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           mainMap?.flyTo({ center: [longitude, latitude] });
           const pointAlreadyInUserPath = userCurrentTrack.some(
             ([alreadyComputedLongitude, alreadyComputedLatitude]) =>
-              String(alreadyComputedLatitude) === String(latitude) &&
-              String(alreadyComputedLongitude) === String(longitude)
+              Math.abs(alreadyComputedLatitude - latitude) < tolerance &&
+              Math.abs(alreadyComputedLongitude - longitude) < tolerance
           );
+
           if (pointAlreadyInUserPath) return;
 
           setUserCurrentPosition({ longitude, latitude });
