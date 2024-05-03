@@ -1,14 +1,13 @@
 import { api } from "@/lib/axios";
-export interface GetUserTracksResponse {
+type Track = {
   title: string;
   _id: string;
   createdAt: Date | null;
   updatedAt: Date | null;
   coordinates: [[number, number]];
-}
-export async function getUserTracks() {
-  const response = await api.get<GetUserTracksResponse>("/tracks");
+};
 
-  console.log(response.data);
+export async function getUserTracks(): Promise<Track[]> {
+  const response = await api.get<Track[]>("/tracks");
   return response.data;
 }

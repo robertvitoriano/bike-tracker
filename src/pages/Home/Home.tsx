@@ -17,6 +17,8 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { env } from "./../../../env";
+import { useQuery } from "@tanstack/react-query";
+import { getUserTracks } from "@/api/get-user-tracks";
 
 export default function Home() {
   type mapStyleType =
@@ -67,7 +69,10 @@ export default function Home() {
 
   const { mainMap } = useMap();
   const pathRef = useRef(null);
-
+  const { data: userSavedTracks } = useQuery({
+    queryKey: ["get-user-tracks"],
+    queryFn: getUserTracks,
+  });
   useEffect(() => {
     loadInitialState();
   }, []);
@@ -125,15 +130,15 @@ export default function Home() {
                 Select one of the tracks you saved
               </DrawerDescription>
               <ul>
-                {localStorage.getItem("tracks") &&
-                  JSON.parse(localStorage.getItem("tracks")).map((track) => (
-                    <li
-                      className="border-b-2 bg-white p-4 cursor-pointer"
-                      onClick={() => handleSavedTrackSelection(track)}
-                    >
-                      <h3>{track.title}</h3>
-                    </li>
-                  ))}
+                {userSavedTracks.map((track) => (
+                  <li
+                    className="border-b-2 bg-white p-4 cursor-pointer"
+                    onClick={() => handleSavedTrackSelection(track)}
+                    key={track._id}
+                  >
+                    <h3>{track.title}</h3>
+                  </li>
+                ))}
               </ul>
             </DrawerHeader>
           </div>
