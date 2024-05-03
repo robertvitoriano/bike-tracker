@@ -20,6 +20,7 @@ import { env } from "./../../../env";
 import { useQuery } from "@tanstack/react-query";
 import { getUserTracks } from "@/api/get-user-tracks";
 import { getDistance } from "geojson-tools";
+import { useTracking } from "@/lib/hooks/useTracking";
 export default function Home() {
   type mapStyleType =
     | string
@@ -75,6 +76,9 @@ export default function Home() {
     queryKey: ["get-user-tracks"],
     queryFn: getUserTracks,
   });
+
+  useTracking();
+
   useEffect(() => {
     loadInitialState();
   }, []);
