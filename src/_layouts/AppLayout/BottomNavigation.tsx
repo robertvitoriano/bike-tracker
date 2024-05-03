@@ -42,6 +42,9 @@ export const BottomNavigation = () => {
   const togglePauseTrackPopOver = useDialogStore(
     (state: any) => state.togglePauseTrackPopOver
   );
+  const updateCurrentTrackDistance = useUserTrackStore(
+    (state: any) => state.updateCurrentTrackDistance
+  );
   const { mainMap } = useMap();
 
   useEffect(() => {
@@ -63,6 +66,7 @@ export const BottomNavigation = () => {
 
           setUserCurrentPosition({ longitude, latitude });
           addCoordinateToCurrentTrack([longitude, latitude]);
+          updateCurrentTrackDistance();
         },
         (error) => {
           console.error("Error watching position:", error);
