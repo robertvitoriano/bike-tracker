@@ -1,13 +1,18 @@
 import { create } from "zustand";
-
+import { getDistance } from "geojson-tools";
 export const useUserTrackStore = create((set) => ({
   userCurrentTrack: [],
   isTrackingPosition: false,
   selectedSaveTrack: null,
   currentTrackTime: 0,
+  currentTrackDistance: 0,
   updateCurrentTrackTime: () =>
     set((state) => {
       return { currentTrackTime: state.currentTrackTime + 1 };
+    }),
+  updateCurrentTrackDistance: () =>
+    set((state) => {
+      return { currentTrackDistance: getDistance(state.userCurrentTrack, 2) };
     }),
   clearCurrentTrackTime: () =>
     set(() => ({

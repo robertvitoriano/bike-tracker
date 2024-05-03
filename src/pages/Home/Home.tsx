@@ -19,7 +19,7 @@ import {
 import { env } from "./../../../env";
 import { useQuery } from "@tanstack/react-query";
 import { getUserTracks } from "@/api/get-user-tracks";
-
+import { getDistance } from "geojson-tools";
 export default function Home() {
   type mapStyleType =
     | string
@@ -66,7 +66,9 @@ export default function Home() {
   const currentTrackTime = useUserTrackStore(
     (state: any) => state.currentTrackTime
   );
-
+  const currentTrackDistance = useUserTrackStore(
+    (state: any) => state.currentTrackDistance
+  );
   const { mainMap } = useMap();
   const pathRef = useRef(null);
   const { data: userSavedTracks } = useQuery({
@@ -113,6 +115,7 @@ export default function Home() {
     const [longitude, latitude] = coordinates[0];
     mainMap?.flyTo({ center: [longitude, latitude], zoom: 19 });
     setOpenSavedTracksDrawer(false);
+    console.log(getDistance(coordinates, 2));
   }
 
   return (
@@ -151,6 +154,7 @@ export default function Home() {
       {isTrackingPosition && (
         <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
           <h1>Time elapsed: {currentTrackTime}</h1>
+          <h1>Total Distance: {currentTrackDistance}</h1>
         </div>
       )}
       {!isTrackingPosition &&
