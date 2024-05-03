@@ -58,8 +58,8 @@ export const BottomNavigation = () => {
           mainMap?.flyTo({ center: [longitude, latitude] });
           const pointAlreadyInUserPath = userCurrentTrack.some(
             ([alreadyComputedLongitude, alreadyComputedLatitude]) =>
-              alreadyComputedLatitude === latitude &&
-              alreadyComputedLongitude === longitude
+              String(alreadyComputedLatitude) === String(latitude) &&
+              String(alreadyComputedLongitude) === String(longitude)
           );
           if (pointAlreadyInUserPath) return;
 
