@@ -5,8 +5,14 @@ export const useUserTrackStore = create((set) => ({
   isTrackingPosition: false,
   selectedSaveTrack: null,
   currentTrackTime: 0,
-  setCurrentTrackTime: (updatedTime) =>
-    set(() => ({ currentTrackTime: updatedTime })),
+  updateCurrentTrackTime: () =>
+    set((state) => {
+      return { currentTrackTime: state.currentTrackTime + 1 };
+    }),
+  clearCurrentTrackTime: () =>
+    set(() => ({
+      isTrackingPosition: 0,
+    })),
   selectSavedTrack: (savedTrack) =>
     set(() => ({
       selectedSaveTrack: savedTrack,

@@ -138,6 +138,9 @@ export default function Home() {
                       key={track._id}
                     >
                       <h3>{track.title}</h3>
+                      <h3>
+                        Tempo: <strong>{track.time}</strong> segundos
+                      </h3>
                     </li>
                   ))}
               </ul>

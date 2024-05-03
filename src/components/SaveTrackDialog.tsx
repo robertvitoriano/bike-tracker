@@ -36,13 +36,21 @@ export function SaveTrackDialog() {
   const cleanCurrentTrack = useUserTrackStore(
     (state: any) => state.cleanCurrentTrack
   );
+  const currentTrackTime = useUserTrackStore(
+    (state: any) => state.currentTrackTime
+  );
+  const clearCurrentTrackTime = useUserTrackStore(
+    (state: any) => state.clearCurrentTrackTime
+  );
   async function handleTrackSaving(data) {
     cleanCurrentTrack();
     const trackData = {
       title: data.title,
       coordinates: userCurrentTrack,
+      time: currentTrackTime,
     };
     await storeUserTrackFn(trackData);
+    clearCurrentTrackTime();
     toggleTrackSavingPopOver();
   }
   return (

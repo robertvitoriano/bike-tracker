@@ -1,7 +1,8 @@
 import { api } from "@/lib/axios";
 type Track = {
-  title: string;
   _id: string;
+  time: number;
+  title: string;
   createdAt: Date | null;
   updatedAt: Date | null;
   coordinates: [[number, number]];

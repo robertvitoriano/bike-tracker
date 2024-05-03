@@ -35,11 +35,9 @@ export const BottomNavigation = () => {
   const cleanSelectedTrack = useUserTrackStore(
     (state: any) => state.cleanSelectedTrack
   );
-  const currentTrackTime = useUserTrackStore(
-    (state: any) => state.currentTrackTime
-  );
-  const setCurrentTrackTime = useUserTrackStore(
-    (state: any) => state.setCurrentTrackTime
+
+  const updateCurrentTrackTime = useUserTrackStore(
+    (state: any) => state.updateCurrentTrackTime
   );
   const togglePauseTrackPopOver = useDialogStore(
     (state: any) => state.togglePauseTrackPopOver
@@ -48,10 +46,7 @@ export const BottomNavigation = () => {
 
   useEffect(() => {
     if (isTrackingPosition) {
-      tracktTimerId = setInterval(
-        () => setCurrentTrackTime(currentTrackTime + 1),
-        1000
-      );
+      tracktTimerId = setInterval(() => updateCurrentTrackTime(), 1000);
       const tolerance = 0.00001; // Adjust as needed based on your accuracy requirements
 
       watchId = navigator.geolocation.watchPosition(
