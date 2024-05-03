@@ -154,7 +154,7 @@ export default function Home() {
       {isTrackingPosition && (
         <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
           <h1>Time elapsed: {currentTrackTime}</h1>
-          <h1>Total Distance: {currentTrackDistance}</h1>
+          <h1>Total Distance: {currentTrackDistance * 1000} meters</h1>
         </div>
       )}
       {!isTrackingPosition &&

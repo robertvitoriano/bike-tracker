@@ -12,7 +12,7 @@ export const useUserTrackStore = create((set) => ({
     }),
   updateCurrentTrackDistance: () =>
     set((state) => {
-      return { currentTrackDistance: getDistance(state.userCurrentTrack, 2) };
+      return { currentTrackDistance: getDistance(state.userCurrentTrack, 4) };
     }),
   clearCurrentTrackTime: () =>
     set(() => ({
