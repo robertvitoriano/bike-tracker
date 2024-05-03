@@ -96,7 +96,7 @@ export default function Home() {
 
   async function flyToUserCurrentPosition() {
     const { latitude, longitude } = await getCurrentLocation();
-    mainMap?.flyTo({ center: [longitude, latitude] });
+    mainMap?.flyTo({ center: [longitude, latitude], zoom: 19 });
   }
 
   async function handleUserTracking() {
@@ -158,7 +158,7 @@ export default function Home() {
       {isTrackingPosition && (
         <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
           <h1>Time elapsed: {currentTrackTime}</h1>
-          {currentTrackDistance < 1000 ? (
+          {currentTrackDistance < 1 ? (
             <h1>Total Distance: {currentTrackDistance * 1000} meters</h1>
           ) : (
             <h1>Total Distance: {currentTrackDistance} Km</h1>
