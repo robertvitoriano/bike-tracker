@@ -52,7 +52,7 @@ export const BottomNavigation = () => {
         () => setCurrentTrackTime(currentTrackTime + 1),
         1000
       );
-      const tolerance = 0.0000001; // Adjust as needed based on your accuracy requirements
+      const tolerance = 0.00001; // Adjust as needed based on your accuracy requirements
 
       watchId = navigator.geolocation.watchPosition(
         (position) => {

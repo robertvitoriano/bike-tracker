@@ -130,15 +130,16 @@ export default function Home() {
                 Select one of the tracks you saved
               </DrawerDescription>
               <ul>
-                {userSavedTracks.map((track) => (
-                  <li
-                    className="border-b-2 bg-white p-4 cursor-pointer"
-                    onClick={() => handleSavedTrackSelection(track)}
-                    key={track._id}
-                  >
-                    <h3>{track.title}</h3>
-                  </li>
-                ))}
+                {userSavedTracks &&
+                  userSavedTracks.map((track) => (
+                    <li
+                      className="border-b-2 bg-white p-4 cursor-pointer"
+                      onClick={() => handleSavedTrackSelection(track)}
+                      key={track._id}
+                    >
+                      <h3>{track.title}</h3>
+                    </li>
+                  ))}
               </ul>
             </DrawerHeader>
           </div>

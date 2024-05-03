@@ -61,14 +61,16 @@ export function SaveTrackDialog() {
               <Input id="title" className="col-span-3" {...register("title")} />
             </div>
           </div>
-          {userCurrentTrack.length > 1 ? (
-            <Button type="submit" disabled={isSubmitting}>
-              Save new track
-            </Button>
-          ) : (
-            <h1 className="text-white">
+          <Button
+            type="submit"
+            disabled={isSubmitting || userCurrentTrack.length <= 1}
+          >
+            Save new track
+          </Button>
+          {userCurrentTrack.length <= 1 && (
+            <span className="text-red-500">
               Current track is not long enough to be saved, ride more!
-            </h1>
+            </span>
           )}
         </form>
       </DialogContent>
