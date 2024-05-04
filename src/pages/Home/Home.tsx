@@ -168,9 +168,11 @@ export default function Home() {
         <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
           <h1>Time elapsed: {getFormattedTime(currentTrackTime)}</h1>
           {currentTrackDistance < 1 ? (
-            <h1>Total Distance: {currentTrackDistance * 1000} meters</h1>
+            <h1>
+              Total Distance: {(currentTrackDistance * 1000).toFixed(2)} meters
+            </h1>
           ) : (
-            <h1>Total Distance: {currentTrackDistance} Km</h1>
+            <h1>Total Distance: {currentTrackDistance.toFixed(2)} Km</h1>
           )}
         </div>
       )}
