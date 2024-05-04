@@ -45,8 +45,7 @@ export function getFormattedTime(totalTimeInSeconds) {
   );
   const timeInSeconds = addLeadingZero(Math.floor(totalTimeInSeconds % 60));
 
-  return `${timeInHours}:${timeInMinutes}:
-  ${timeInSeconds}`;
+  return `${timeInHours}:${timeInMinutes}:${timeInSeconds}`;
 }
 function addLeadingZero(num) {
   return num < 10 ? "0" + num : num;
