@@ -6,6 +6,7 @@ type Track = {
   createdAt: Date | null;
   updatedAt: Date | null;
   coordinates: [[number, number]];
+  distance: number;
 };
 
 export async function getUserTracks(): Promise<Track[]> {

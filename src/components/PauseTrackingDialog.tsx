@@ -12,6 +12,12 @@ export function PauseTrackingDialog() {
   const cleanCurrentTrack = useUserTrackStore(
     (state: any) => state.cleanCurrentTrack
   );
+  const clearCurrentTrackDistance = useUserTrackStore(
+    (state: any) => state.clearCurrentTrackDistance
+  );
+  const clearCurrentTrackTime = useUserTrackStore(
+    (state: any) => state.clearCurrentTrackTime
+  );
   const toggleTrackSavingPopOver = useDialogStore(
     (state: any) => state.toggleTrackSavingPopOver
   );
@@ -35,6 +41,8 @@ export function PauseTrackingDialog() {
 
   function handleTrackDiscardButtonClick() {
     cleanCurrentTrack();
+    clearCurrentTrackDistance();
+    clearCurrentTrackTime();
     togglePauseTrackPopOver();
   }
   return (

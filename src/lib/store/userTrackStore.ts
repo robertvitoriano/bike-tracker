@@ -20,7 +20,7 @@ export const useUserTrackStore = create((set) => ({
     })),
   clearCurrentTrackTime: () =>
     set(() => ({
-      isTrackingPosition: 0,
+      currentTrackTime: 0,
     })),
   selectSavedTrack: (savedTrack) =>
     set(() => ({

@@ -5,7 +5,7 @@ import { ImmutableLike } from "react-map-gl/dist/esm/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { MapMarker } from "./MapMarker";
-import { getCurrentLocation } from "@/lib/utils";
+import { getCurrentLocation, getFormattedTime } from "@/lib/utils";
 import { layers } from "@/lib/layers";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
 import { useDialogStore } from "@/lib/store/useDialogStore";
@@ -72,15 +72,7 @@ export default function Home() {
   );
   const { mainMap } = useMap();
   const pathRef = useRef(null);
-  const timeInSeconds = useRef(0);
-  const timeInMinutes = useRef(0);
-  const timeInHours = useRef(0);
 
-  timeInHours.current = addLeadingZero(Math.floor(currentTrackTime / 3600));
-  timeInMinutes.current = addLeadingZero(
-    Math.floor((currentTrackTime % 3600) / 60)
-  );
-  timeInSeconds.current = addLeadingZero(Math.floor(currentTrackTime % 60));
   const { data: userSavedTracks } = useQuery({
     queryKey: ["get-user-tracks"],
     queryFn: getUserTracks,
@@ -130,9 +122,7 @@ export default function Home() {
     setOpenSavedTracksDrawer(false);
     console.log(getDistance(coordinates, 2));
   }
-  function addLeadingZero(num) {
-    return num < 10 ? "0" + num : num;
-  }
+
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
       <Drawer
@@ -157,7 +147,15 @@ export default function Home() {
                     >
                       <h3>{track.title}</h3>
                       <h3>
-                        Tempo: <strong>{track.time}</strong> segundos
+                        Time: <strong>{getFormattedTime(track.time)}</strong>
+                      </h3>
+                      <h3>
+                        Distance({track.distance < 1 ? "meters" : "Km"}):
+                        <strong>
+                          {track.distance < 1
+                            ? track.distance * 1000
+                            : track.distance}
+                        </strong>
                       </h3>
                     </li>
                   ))}
@@ -168,10 +166,7 @@ export default function Home() {
       </Drawer>
       {isTrackingPosition && (
         <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
-          <h1>
-            Time elapsed: {timeInHours.current}:{timeInMinutes.current}:
-            {timeInSeconds.current}
-          </h1>
+          <h1>Time elapsed: {getFormattedTime(currentTrackTime)}</h1>
           {currentTrackDistance < 1 ? (
             <h1>Total Distance: {currentTrackDistance * 1000} meters</h1>
           ) : (

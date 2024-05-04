@@ -42,12 +42,16 @@ export function SaveTrackDialog() {
   const clearCurrentTrackTime = useUserTrackStore(
     (state: any) => state.clearCurrentTrackTime
   );
+  const currentTrackDistance = useUserTrackStore(
+    (state: any) => state.currentTrackDistance
+  );
   async function handleTrackSaving(data) {
     cleanCurrentTrack();
     const trackData = {
       title: data.title,
       coordinates: userCurrentTrack,
       time: currentTrackTime,
+      distance: currentTrackDistance,
     };
     await storeUserTrackFn(trackData);
     clearCurrentTrackTime();
