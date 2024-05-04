@@ -1,4 +1,9 @@
 {
+  "name": "biketracker",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite",
   "appId": "io.ionic.starter",
   "appName": "biketracker",
   "bundledWebRuntime": false,
