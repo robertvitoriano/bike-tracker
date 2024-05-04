@@ -45,29 +45,27 @@ export function useTracking() {
       onWatchError
     );
   }
-  function onWatchTracking() {
-    (position) => {
-      const tolerance = 0.00001;
+  function onWatchTracking(position) {
+    const tolerance = 0.00001;
 
-      const { latitude, longitude } = position.coords;
-      mainMap?.flyTo({ center: [longitude, latitude] });
-      const pointAlreadyInUserPath = userCurrentTrack.some(
-        ([alreadyComputedLongitude, alreadyComputedLatitude]) =>
-          Math.abs(alreadyComputedLatitude - latitude) < tolerance &&
-          Math.abs(alreadyComputedLongitude - longitude) < tolerance
-      );
+    const { latitude, longitude } = position.coords;
 
-      if (pointAlreadyInUserPath) return;
+    mainMap?.flyTo({ center: [longitude, latitude] });
 
-      setUserCurrentPosition({ longitude, latitude });
-      addCoordinateToCurrentTrack([longitude, latitude]);
-      updateCurrentTrackDistance();
-    };
+    const pointAlreadyInUserPath = userCurrentTrack.some(
+      ([alreadyComputedLongitude, alreadyComputedLatitude]) =>
+        Math.abs(alreadyComputedLatitude - latitude) < tolerance &&
+        Math.abs(alreadyComputedLongitude - longitude) < tolerance
+    );
+
+    if (pointAlreadyInUserPath) return;
+
+    setUserCurrentPosition({ longitude, latitude });
+    addCoordinateToCurrentTrack([longitude, latitude]);
+    updateCurrentTrackDistance();
   }
-  function onWatchError() {
-    (error) => {
-      console.error("Error watching position:", error);
-    };
+  function onWatchError(error) {
+    console.error("Error watching position:", error);
   }
   return {
     stopTracking,
