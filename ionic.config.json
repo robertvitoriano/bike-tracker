@@ -1,0 +1,6 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "biketracker",
+  "bundledWebRuntime": false,
+  "webDir": "dist"
+}
