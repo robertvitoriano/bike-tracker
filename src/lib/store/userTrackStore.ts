@@ -14,6 +14,10 @@ export const useUserTrackStore = create((set) => ({
     set((state) => {
       return { currentTrackDistance: getDistance(state.userCurrentTrack, 4) };
     }),
+  clearCurrentTrackDistance: () =>
+    set(() => ({
+      currentTrackDistance: 0,
+    })),
   clearCurrentTrackTime: () =>
     set(() => ({
       isTrackingPosition: 0,

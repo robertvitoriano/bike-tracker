@@ -27,35 +27,49 @@ export function useTracking() {
 
   useEffect(() => {
     if (isTrackingPosition) {
-      tracktTimerId = setInterval(() => updateCurrentTrackTime(), 1000);
-      const tolerance = 0.00001; // Adjust as needed based on your accuracy requirements
-
-      watchId = navigator.geolocation.watchPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          mainMap?.flyTo({ center: [longitude, latitude] });
-          const pointAlreadyInUserPath = userCurrentTrack.some(
-            ([alreadyComputedLongitude, alreadyComputedLatitude]) =>
-              Math.abs(alreadyComputedLatitude - latitude) < tolerance &&
-              Math.abs(alreadyComputedLongitude - longitude) < tolerance
-          );
-
-          if (pointAlreadyInUserPath) return;
-
-          setUserCurrentPosition({ longitude, latitude });
-          addCoordinateToCurrentTrack([longitude, latitude]);
-          updateCurrentTrackDistance();
-        },
-        (error) => {
-          console.error("Error watching position:", error);
-        }
-      );
-      return () => {
-        navigator.geolocation.clearWatch(watchId);
-      };
-    } else {
-      if (watchId) navigator.geolocation.clearWatch(watchId);
-      if (tracktTimerId) clearInterval(tracktTimerId);
+      runPositionTracking();
     }
+    return () => {
+      stopTracking();
+    };
   }, [isTrackingPosition]);
+
+  function stopTracking() {
+    if (watchId) navigator.geolocation.clearWatch(watchId);
+    if (tracktTimerId) clearInterval(tracktTimerId);
+  }
+  function runPositionTracking() {
+    tracktTimerId = setInterval(() => updateCurrentTrackTime(), 1000);
+    watchId = navigator.geolocation.watchPosition(
+      onWatchTracking,
+      onWatchError
+    );
+  }
+  function onWatchTracking() {
+    (position) => {
+      const tolerance = 0.00001;
+
+      const { latitude, longitude } = position.coords;
+      mainMap?.flyTo({ center: [longitude, latitude] });
+      const pointAlreadyInUserPath = userCurrentTrack.some(
+        ([alreadyComputedLongitude, alreadyComputedLatitude]) =>
+          Math.abs(alreadyComputedLatitude - latitude) < tolerance &&
+          Math.abs(alreadyComputedLongitude - longitude) < tolerance
+      );
+
+      if (pointAlreadyInUserPath) return;
+
+      setUserCurrentPosition({ longitude, latitude });
+      addCoordinateToCurrentTrack([longitude, latitude]);
+      updateCurrentTrackDistance();
+    };
+  }
+  function onWatchError() {
+    (error) => {
+      console.error("Error watching position:", error);
+    };
+  }
+  return {
+    stopTracking,
+  };
 }

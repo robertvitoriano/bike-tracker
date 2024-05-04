@@ -72,6 +72,15 @@ export default function Home() {
   );
   const { mainMap } = useMap();
   const pathRef = useRef(null);
+  const timeInSeconds = useRef(0);
+  const timeInMinutes = useRef(0);
+  const timeInHours = useRef(0);
+
+  timeInHours.current = addLeadingZero(Math.floor(currentTrackTime / 3600));
+  timeInMinutes.current = addLeadingZero(
+    Math.floor((currentTrackTime % 3600) / 60)
+  );
+  timeInSeconds.current = addLeadingZero(Math.floor(currentTrackTime % 60));
   const { data: userSavedTracks } = useQuery({
     queryKey: ["get-user-tracks"],
     queryFn: getUserTracks,
@@ -100,7 +109,7 @@ export default function Home() {
   }
 
   async function handleUserTracking() {
-    flyToUserCurrentPosition();
+    await flyToUserCurrentPosition();
     if (!isUserLocationMarkerShowing) {
       toggleUserLocationMarker();
     }
@@ -121,7 +130,9 @@ export default function Home() {
     setOpenSavedTracksDrawer(false);
     console.log(getDistance(coordinates, 2));
   }
-
+  function addLeadingZero(num) {
+    return num < 10 ? "0" + num : num;
+  }
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
       <Drawer
@@ -157,7 +168,10 @@ export default function Home() {
       </Drawer>
       {isTrackingPosition && (
         <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
-          <h1>Time elapsed: {currentTrackTime}</h1>
+          <h1>
+            Time elapsed: {timeInHours.current}:{timeInMinutes.current}:
+            {timeInSeconds.current}
+          </h1>
           {currentTrackDistance < 1 ? (
             <h1>Total Distance: {currentTrackDistance * 1000} meters</h1>
           ) : (
