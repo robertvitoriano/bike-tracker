@@ -5,7 +5,5 @@ export interface ITrack {
 }
 
 export async function storeUserTrack(track: ITrack) {
-  const response = await api.post("/tracks", track);
-
-  return response.data;
+  await api.post("/tracks", track);
 }
