@@ -150,11 +150,11 @@ export default function Home() {
                         Time: <strong>{getFormattedTime(track.time)}</strong>
                       </h3>
                       <h3>
-                        Distance({track.distance < 1 ? "meters" : "Km"}):
+                        Distance:{" "}
                         <strong>
                           {track.distance < 1
-                            ? track.distance * 1000
-                            : track.distance}
+                            ? track.distance * 1000 + " m"
+                            : track.distance + " Km"}
                         </strong>
                       </h3>
                     </li>
