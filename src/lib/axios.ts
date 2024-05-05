@@ -19,7 +19,7 @@ api.interceptors.response.use(
   (err) => {
     const authorizedUserError =
       err.response && err.response.status !== 401 && err.response.status < 500;
-    const unauthorizedUserError = err.response.status === 401;
+    const unauthorizedUserError = err.response && err.response.status === 401;
     if (unauthorizedUserError) {
       localStorage.clear();
       location.reload();
