@@ -9,18 +9,11 @@ import { getCurrentLocation, getFormattedTime } from "@/lib/utils";
 import { layers } from "@/lib/layers";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
 import { useDialogStore } from "@/lib/store/useDialogStore";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+
 import { env } from "./../../../env";
-import { useQuery } from "@tanstack/react-query";
-import { getUserTracks } from "@/api/get-user-tracks";
 import { getDistance } from "geojson-tools";
 import { useTracking } from "@/lib/hooks/useTracking";
+import { SavedTracksDrawer } from "./SavedTracksDrawer";
 export default function Home() {
   type mapStyleType =
     | string
@@ -73,11 +66,6 @@ export default function Home() {
   const { mainMap } = useMap();
   const pathRef = useRef(null);
 
-  const { data: userSavedTracks } = useQuery({
-    queryKey: ["get-user-tracks"],
-    queryFn: getUserTracks,
-  });
-
   useTracking();
 
   useEffect(() => {
@@ -125,45 +113,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
-      <Drawer
-        direction="right"
-        open={openSavedTracksDrawer}
-        onClose={() => setOpenSavedTracksDrawer(false)}
-      >
-        <DrawerContent>
-          <div>
-            <DrawerHeader>
-              <DrawerTitle>Saved Tracks</DrawerTitle>
-              <DrawerDescription>
-                Select one of the tracks you saved
-              </DrawerDescription>
-              <ul>
-                {userSavedTracks &&
-                  userSavedTracks.map((track) => (
-                    <li
-                      className="border-b-2 bg-white p-4 cursor-pointer"
-                      onClick={() => handleSavedTrackSelection(track)}
-                      key={track._id}
-                    >
-                      <h3>{track.title}</h3>
-                      <h3>
-                        Time: <strong>{getFormattedTime(track.time)}</strong>
-                      </h3>
-                      <h3>
-                        Distance:{" "}
-                        <strong>
-                          {track.distance < 1
-                            ? track.distance * 1000 + " m"
-                            : track.distance + " Km"}
-                        </strong>
-                      </h3>
-                    </li>
-                  ))}
-              </ul>
-            </DrawerHeader>
-          </div>
-        </DrawerContent>
-      </Drawer>
       {isTrackingPosition && (
         <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
           <h1>Time elapsed: {getFormattedTime(currentTrackTime)}</h1>
@@ -186,6 +135,11 @@ export default function Home() {
             <h1>Open saved Tracks</h1>
           </div>
         )}
+      <SavedTracksDrawer
+        open={openSavedTracksDrawer}
+        handleSavedTrackSelection={handleSavedTrackSelection}
+        onClose={() => setOpenSavedTracksDrawer(false)}
+      />
       {permissionGranted ? (
         <MapboxMap
           mapboxAccessToken={env.VITE_MAPBOX_TOKEN}
