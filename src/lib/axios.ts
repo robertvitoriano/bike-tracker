@@ -12,6 +12,26 @@ const requestIntercepter = (config) => {
 };
 
 api.interceptors.request.use(requestIntercepter);
+api.interceptors.request.use(requestIntercepter);
+
+api.interceptors.response.use(
+  (response) => response,
+  (err) => {
+    const authorizedUserError =
+      err.response && err.response.status !== 401 && err.response.status < 500;
+    const unauthorizedUserError = err.response.status === 401;
+    if (unauthorizedUserError) {
+      localStorage.clear();
+      location.reload();
+      return Promise.reject(null);
+    }
+
+    if (authorizedUserError) {
+      console.error(err);
+      return Promise.reject(err);
+    }
+  }
+);
 
 if (env.VITE_ENABLE_API_DELAY) {
   api.interceptors.request.use(async (config) => {
