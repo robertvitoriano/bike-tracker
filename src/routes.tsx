@@ -6,6 +6,8 @@ import { UnauthenticatedLayout } from "./_layouts/UnauthenticatedLayout/Unauthen
 import { SignIn } from "./pages/SignIn/SignIn";
 import { SignUp } from "./pages/SignUp/SignUp";
 import { Home } from "./pages/Home/Home";
+import { Explore } from "./pages/Explore/Explore";
+import { Profile } from "./pages/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -21,8 +23,16 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/Record",
+        path: "/record",
         element: <Record />,
+      },
+      {
+        path: "/explore",
+        element: <Explore />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },

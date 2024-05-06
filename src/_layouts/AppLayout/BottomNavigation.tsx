@@ -1,8 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlay, faCirclePause } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleStop,
+  faHouse,
+  faMap,
+} from "@fortawesome/free-solid-svg-icons";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
 import { useDialogStore } from "@/lib/store/useDialogStore";
+import { useNavigate, useLocation } from "react-router-dom";
+import { navigationLinks } from "./navigationLinks";
 export const BottomNavigation = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const isTrackingPosition = useUserTrackStore(
     (state: any) => state.isTrackingPosition
   );
@@ -33,6 +41,7 @@ export const BottomNavigation = () => {
   function handleStartTrackingButtonClick() {
     cleanSelectedTrack();
     toggleTrackingPosition();
+    navigate("/record");
     if (!isTrackingPosition) {
       startTrackingUserPosition();
       return;
@@ -42,22 +51,46 @@ export const BottomNavigation = () => {
     togglePauseTrackPopOver();
     toggleTrackingPosition();
   }
+  console.log({ location });
 
   return (
-    <div className="w-full bg-primary flex px-2 py-1  gap-2 items-center justify-center fixed bottom-0 z-50">
-      {isTrackingPosition ? (
-        <FontAwesomeIcon
-          icon={faCirclePause}
-          className={`bg-white rounded-full text-4xl cursor-pointer text-red-500`}
-          onClick={handlePauseTrackingButtonClick}
-        />
-      ) : (
-        <FontAwesomeIcon
-          icon={faCirclePlay}
-          className={`bg-white rounded-full text-4xl cursor-pointer text-green-500`}
-          onClick={handleStartTrackingButtonClick}
-        />
-      )}
-    </div>
+    <>
+      {
+        <div className="w-full bg-primary flex justify-between items-end p-2 fixed bottom-0 z-50 gap-8">
+          <div className="flex gap-8">
+            {navigationLinks.slice(0, 2).map((link) => (
+              <FontAwesomeIcon
+                icon={link.icon}
+                className={`text-[1.5rem] ${location.pathname === link.path && "text-secondary"} cursor-pointer `}
+                onClick={() => navigate(link.path)}
+              />
+            ))}
+          </div>
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+            {isTrackingPosition ? (
+              <FontAwesomeIcon
+                icon={faCircleStop}
+                className="bg-white rounded-full text-5xl cursor-pointer text-red-500"
+                onClick={handlePauseTrackingButtonClick}
+              />
+            ) : (
+              <div
+                className="bg-red-500 rounded-full cursor-pointer flex justify-center items-center text-white text-sm h-12 w-12"
+                onClick={handleStartTrackingButtonClick}
+              >
+                <span>Rec</span>
+              </div>
+            )}
+          </div>
+          {navigationLinks.slice(2, navigationLinks.length).map((link) => (
+            <FontAwesomeIcon
+              icon={link.icon}
+              className={`text-[1.5rem] ${location.pathname === link.path && "text-secondary"} cursor-pointer `}
+              onClick={() => navigate(link.path)}
+            />
+          ))}
+        </div>
+      }
+    </>
   );
 };
