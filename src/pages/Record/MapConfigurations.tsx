@@ -3,7 +3,6 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-  DrawerClose,
   Drawer,
 } from "@/components/ui/drawer";
 import { Label } from "@/components/ui/label";
@@ -24,7 +23,7 @@ export function MapConfigurations({ selectedLayer, setSelectedLayer }) {
     <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
       <FontAwesomeIcon
         icon={faLayerGroup}
-        className="text-primary text-4xl cursor-pointer"
+        className="text-2xl cursor-pointer"
         onClick={() => setOpenDrawer(true)}
       />
       <DrawerContent className="h-full">
@@ -36,7 +35,7 @@ export function MapConfigurations({ selectedLayer, setSelectedLayer }) {
           <X onClick={() => setOpenDrawer(false)} />
         </DrawerHeader>
         <div className="flex flex-col py-4 px-2">
-          <h3 className="my-4 font-bold">Map types:</h3>
+          <h3 className="my-4 font-bold">Map types</h3>
           <RadioGroup className="">
             {Object.entries(layers).map(([_, { label, url, image }]) => (
               <div

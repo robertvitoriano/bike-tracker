@@ -15,10 +15,12 @@ interface IProps {
 }
 export function SavedTracksDrawer(props: IProps) {
   const { open, handleSavedTrackSelection, onClose } = props;
+
   const { data: userSavedTracks } = useQuery({
     queryKey: ["get-user-tracks"],
     queryFn: getUserTracks,
   });
+
   return (
     <Drawer direction="right" open={open} onClose={() => onClose()}>
       <DrawerContent>

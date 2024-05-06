@@ -52,6 +52,9 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      margin:{
+        "headerHeight":"51px"
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

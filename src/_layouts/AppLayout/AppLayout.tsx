@@ -19,7 +19,9 @@ export function AppLayout() {
     <div className="flex min-h-screen flex-col relative overflow-hidden">
       <MapProvider>
         <Header />
-        <Outlet />
+        <div className="mt-headerHeight flex flex-col">
+          <Outlet />
+        </div>
         <BottomNavigation />
       </MapProvider>
     </div>
