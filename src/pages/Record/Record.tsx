@@ -8,11 +8,8 @@ import { MapMarker } from "./MapMarker";
 import { getCurrentLocation, getFormattedTime } from "@/lib/utils";
 import { layers } from "@/lib/layers";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
-import { useDialogStore } from "@/lib/store/useDialogStore";
-
 import { env } from "../../../env";
 import { useTracking } from "@/lib/hooks/useTracking";
-import { SavedTracksDrawer } from "./SavedTracksDrawer";
 
 import { MapConfigurations } from "./MapConfigurations";
 export default function Record() {
@@ -28,9 +25,7 @@ export default function Record() {
   const [selectedLayer, setSelectedLayer] = useState<mapStyleType>(
     layers.STREET.url
   );
-  const [openSavedTracksDrawer, setOpenSavedTracksDrawer] =
-    useState<boolean>(false);
-  const [savedTrackSelected, setSavedTrackSelected] = useState(false);
+
   const userCurrentTrack = useUserTrackStore(
     (state: any) => state.userCurrentTrack
   );
@@ -49,22 +44,14 @@ export default function Record() {
   const isUserLocationMarkerShowing = useUserTrackStore(
     (state: any) => state.isUserLocationMarkerShowing
   );
-  const displayTrackSavingPopOver = useDialogStore(
-    (state: any) => state.displayTrackSavingPopOver
-  );
-  const selectedSaveTrack = useUserTrackStore(
-    (state: any) => state.selectedSaveTrack
-  );
-  const selectSavedTrack = useUserTrackStore(
-    (state: any) => state.selectSavedTrack
-  );
+
   const currentTrackTime = useUserTrackStore(
     (state: any) => state.currentTrackTime
   );
   const currentTrackDistance = useUserTrackStore(
     (state: any) => state.currentTrackDistance
   );
-  const { mainMap } = useMap();
+  const { recordingMap } = useMap();
   const pathRef = useRef(null);
 
   useTracking();
@@ -86,7 +73,7 @@ export default function Record() {
 
   async function flyToUserCurrentPosition() {
     const { latitude, longitude } = await getCurrentLocation();
-    mainMap?.flyTo({ center: [longitude, latitude], zoom: 19 });
+    recordingMap?.flyTo({ center: [longitude, latitude], zoom: 19 });
   }
 
   async function handleUserTracking() {
@@ -99,16 +86,6 @@ export default function Record() {
     if (isTrackingPosition) {
       return userCurrentTrack;
     }
-    return selectedSaveTrack?.coordinates || [];
-  }
-  function handleSavedTrackSelection(track) {
-    selectSavedTrack(track);
-    setSavedTrackSelected(true);
-    if (!isUserLocationMarkerShowing) toggleUserLocationMarker();
-    const { coordinates } = track;
-    const [longitude, latitude] = coordinates[0];
-    mainMap?.flyTo({ center: [longitude, latitude], zoom: 19 });
-    setOpenSavedTracksDrawer(false);
   }
 
   return (
@@ -125,29 +102,14 @@ export default function Record() {
           )}
         </div>
       )}
-      {!isTrackingPosition &&
-        !displayTrackSavingPopOver &&
-        !openSavedTracksDrawer && (
-          <div
-            onClick={() => setOpenSavedTracksDrawer(true)}
-            className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50"
-          >
-            <h1>Open saved Tracks</h1>
-          </div>
-        )}
-      <SavedTracksDrawer
-        open={openSavedTracksDrawer}
-        handleSavedTrackSelection={handleSavedTrackSelection}
-        onClose={() => setOpenSavedTracksDrawer(false)}
-      />
       {permissionGranted ? (
         <MapboxMap
           mapboxAccessToken={env.VITE_MAPBOX_TOKEN}
           initialViewState={initialState}
           mapStyle={selectedLayer}
-          id="mainMap"
+          id="recordingMap"
         >
-          {(isTrackingPosition || savedTrackSelected) && (
+          {isTrackingPosition && (
             <Source
               id="userPath"
               type="geojson"

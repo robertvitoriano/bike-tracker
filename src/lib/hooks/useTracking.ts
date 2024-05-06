@@ -20,7 +20,7 @@ export function useTracking() {
   const isTrackingPosition = useUserTrackStore(
     (state: any) => state.isTrackingPosition
   );
-  const { mainMap } = useMap();
+  const { recordingMap } = useMap();
 
   let tracktTimerId: NodeJS.Timeout;
   let watchId: number;
@@ -50,7 +50,7 @@ export function useTracking() {
 
     const { latitude, longitude } = position.coords;
 
-    mainMap?.flyTo({ center: [longitude, latitude] });
+    recordingMap?.flyTo({ center: [longitude, latitude] });
 
     const pointAlreadyInUserPath = userCurrentTrack.some(
       ([alreadyComputedLongitude, alreadyComputedLatitude]) =>

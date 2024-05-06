@@ -47,11 +47,11 @@ export const BottomNavigation = () => {
       return;
     }
   }
+
   function handlePauseTrackingButtonClick() {
     togglePauseTrackPopOver();
     toggleTrackingPosition();
   }
-  console.log({ location });
 
   return (
     <>
