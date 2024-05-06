@@ -39,6 +39,7 @@ export function getCurrentLocation(): Promise<{
 }
 
 export function getFormattedTime(totalTimeInSeconds) {
+  if (typeof totalTimeInSeconds !== "number") return "00:00:00";
   const timeInHours = addLeadingZero(Math.floor(totalTimeInSeconds / 3600));
   const timeInMinutes = addLeadingZero(
     Math.floor((totalTimeInSeconds % 3600) / 60)

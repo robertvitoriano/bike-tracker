@@ -16,19 +16,19 @@ export function Home() {
               <div className="flex flex-col gap-2">
                 <span className="text-xs">Tracks</span>
                 <span className=" text-2xl font-bold">
-                  {statistics.totalOfTracks}
+                  {statistics?.totalOfTracks || 0}
                 </span>
               </div>
               <div className="flex flex-col gap-2">
                 <span className="text-xs">Time</span>
                 <span className=" text-2xl font-bold">
-                  {getFormattedTime(statistics.totalTime)}
+                  {getFormattedTime(statistics?.totalTime)}
                 </span>
               </div>
               <div className="flex flex-col gap-2">
                 <span className="text-xs">Distance</span>
                 <span className=" text-2xl font-bold">
-                  {statistics.totalDistance.toFixed(2)} Km
+                  {statistics?.totalDistance.toFixed(2) || 0} Km
                 </span>
               </div>
             </div>
