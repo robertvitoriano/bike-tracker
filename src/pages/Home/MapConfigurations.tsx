@@ -21,7 +21,7 @@ export function MapConfigurations({ selectedLayer, setSelectedLayer }) {
     setOpenDrawer(false);
   }
   return (
-    <Drawer open={openDrawer}>
+    <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
       <FontAwesomeIcon
         icon={faLayerGroup}
         className="text-primary text-4xl cursor-pointer"
