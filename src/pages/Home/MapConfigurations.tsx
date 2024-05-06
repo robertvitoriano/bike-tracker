@@ -33,9 +33,7 @@ export function MapConfigurations({ selectedLayer, setSelectedLayer }) {
           style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.2)" }}
         >
           <DrawerTitle>Map Configurations</DrawerTitle>
-          <DrawerClose>
-            <X />
-          </DrawerClose>
+          <X onClick={() => setOpenDrawer(false)} />
         </DrawerHeader>
         <div className="flex flex-col py-4 px-2">
           <h3 className="my-4 font-bold">Map types:</h3>
