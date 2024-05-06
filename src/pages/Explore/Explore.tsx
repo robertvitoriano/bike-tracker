@@ -5,13 +5,12 @@ import { ImmutableLike } from "react-map-gl/dist/esm/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { MapMarker } from "./MapMarker";
-import { getCurrentLocation, getFormattedTime } from "@/lib/utils";
+import { getCurrentLocation } from "@/lib/utils";
 import { layers } from "@/lib/layers";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
 import { useDialogStore } from "@/lib/store/useDialogStore";
 
 import { env } from "../../../env";
-import { useTracking } from "@/lib/hooks/useTracking";
 import { SavedTracksDrawer } from "./SavedTracksDrawer";
 
 import { MapConfigurations } from "./MapConfigurations";
@@ -31,17 +30,12 @@ export function Explore() {
   const [openSavedTracksDrawer, setOpenSavedTracksDrawer] =
     useState<boolean>(false);
   const [savedTrackSelected, setSavedTrackSelected] = useState(false);
-  const userCurrentTrack = useUserTrackStore(
-    (state: any) => state.userCurrentTrack
-  );
+
   const userCurrentPosition = useUserTrackStore(
     (state: any) => state.userCurrentPosition
   );
   const setUserCurrentPosition = useUserTrackStore(
     (state: any) => state.setUserCurrentPosition
-  );
-  const isTrackingPosition = useUserTrackStore(
-    (state: any) => state.isTrackingPosition
   );
   const toggleUserLocationMarker = useUserTrackStore(
     (state: any) => state.toggleUserLocationMarker
@@ -58,16 +52,9 @@ export function Explore() {
   const selectSavedTrack = useUserTrackStore(
     (state: any) => state.selectSavedTrack
   );
-  const currentTrackTime = useUserTrackStore(
-    (state: any) => state.currentTrackTime
-  );
-  const currentTrackDistance = useUserTrackStore(
-    (state: any) => state.currentTrackDistance
-  );
+
   const { exploreMap } = useMap();
   const pathRef = useRef(null);
-
-  useTracking();
 
   useEffect(() => {
     loadInitialState();
@@ -96,9 +83,6 @@ export function Explore() {
     }
   }
   function getTrackToBeDisplayed() {
-    if (isTrackingPosition) {
-      return userCurrentTrack;
-    }
     return selectedSaveTrack?.coordinates || [];
   }
   function handleSavedTrackSelection(track) {
@@ -160,7 +144,7 @@ export function Explore() {
           {isUserLocationMarkerShowing && (
             <MapMarker {...userCurrentPosition}>
               <div
-                className={`${isTrackingPosition ? "pulse" : ""} h-4 w-4 rounded-full bg-[#007cbf] border border-solid border-white`}
+                className={`h-4 w-4 rounded-full bg-[#007cbf] border border-solid border-white`}
               ></div>
             </MapMarker>
           )}

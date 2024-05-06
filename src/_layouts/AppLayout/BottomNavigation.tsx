@@ -68,7 +68,7 @@ export const BottomNavigation = () => {
               <FontAwesomeIcon
                 icon={link.icon}
                 className={`text-[1.5rem] ${location.pathname === link.path && "text-secondary"} cursor-pointer `}
-                onClick={() => handleLinkClick(link.path)}
+                onClick={() => handleLinkClick(link)}
               />
             ))}
           </div>
