@@ -3,7 +3,10 @@ import MapboxMap, { NavigationControl, Source, Layer } from "react-map-gl";
 import { useMap } from "react-map-gl";
 import { ImmutableLike } from "react-map-gl/dist/esm/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLayerGroup,
+  faLocationCrosshairs,
+} from "@fortawesome/free-solid-svg-icons";
 import { MapMarker } from "./MapMarker";
 import { getCurrentLocation, getFormattedTime } from "@/lib/utils";
 import { layers } from "@/lib/layers";
@@ -14,6 +17,8 @@ import { env } from "./../../../env";
 import { getDistance } from "geojson-tools";
 import { useTracking } from "@/lib/hooks/useTracking";
 import { SavedTracksDrawer } from "./SavedTracksDrawer";
+
+import { MapConfigurations } from "./MapConfigurations";
 export default function Home() {
   type mapStyleType =
     | string
@@ -24,7 +29,7 @@ export default function Home() {
   const [initialState, setInitialState] = useState({});
   const [permissionGranted, setPermissionGranted] = useState(false);
 
-  const [selectedLabel, setSelectedLabel] = useState<mapStyleType>(
+  const [selectedLayer, setSelectedLayer] = useState<mapStyleType>(
     layers.STREET.url
   );
   const [openSavedTracksDrawer, setOpenSavedTracksDrawer] =
@@ -108,7 +113,6 @@ export default function Home() {
     const [longitude, latitude] = coordinates[0];
     mainMap?.flyTo({ center: [longitude, latitude], zoom: 19 });
     setOpenSavedTracksDrawer(false);
-    console.log(getDistance(coordinates, 2));
   }
 
   return (
@@ -144,7 +148,7 @@ export default function Home() {
         <MapboxMap
           mapboxAccessToken={env.VITE_MAPBOX_TOKEN}
           initialViewState={initialState}
-          mapStyle={selectedLabel}
+          mapStyle={selectedLayer}
           id="mainMap"
         >
           {(isTrackingPosition || savedTrackSelected) && (
@@ -192,16 +196,10 @@ export default function Home() {
           className="text-5xl text-primary cursor-pointer"
           onClick={handleUserTracking}
         />
-        <div className="">
-          {Object.entries(layers).map(([_, { label, url }]) => (
-            <div
-              onClick={() => setSelectedLabel(url)}
-              className={`p-4 hover:bg-secondary cursor-pointer ${selectedLabel === url ? "bg-secondary" : "bg-primary"}`}
-            >
-              {label}
-            </div>
-          ))}
-        </div>
+        <MapConfigurations
+          selectedLayer={selectedLayer}
+          setSelectedLayer={setSelectedLayer}
+        />
       </div>
     </div>
   );
