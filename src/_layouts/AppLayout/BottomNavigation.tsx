@@ -63,7 +63,7 @@ export const BottomNavigation = () => {
     <>
       {
         <div className="w-full bg-primary flex justify-between items-end p-2 fixed bottom-0 z-50 gap-8">
-          <div className="flex gap-8">
+          <div className="flex gap-16">
             {navigationLinks.slice(0, 2).map((link) => (
               <FontAwesomeIcon
                 icon={link.icon}
@@ -88,13 +88,15 @@ export const BottomNavigation = () => {
               </div>
             )}
           </div>
-          {navigationLinks.slice(2, navigationLinks.length).map((link) => (
-            <FontAwesomeIcon
-              icon={link.icon}
-              className={`text-[1.5rem] ${location.pathname === link.path && "text-secondary"} cursor-pointer `}
-              onClick={() => navigate(link.path)}
-            />
-          ))}
+          <div className="flex gap-16">
+            {navigationLinks.slice(2, navigationLinks.length).map((link) => (
+              <FontAwesomeIcon
+                icon={link.icon}
+                className={`text-[1.5rem] ${location.pathname === link.path && "text-secondary"} cursor-pointer `}
+                onClick={() => navigate(link.path)}
+              />
+            ))}
+          </div>
         </div>
       }
     </>

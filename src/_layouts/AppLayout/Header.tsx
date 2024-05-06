@@ -8,7 +8,10 @@ export const Header = () => {
     <div className="w-full bg-primary flex p-2 gap-2 items-center fixed top-0 z-50">
       <FontAwesomeIcon icon={faBars} className=" text-4xl text-secondary" />
       {location.pathname === "/explore" && (
-        <Input className="bg-secondary outline-none" />
+        <Input
+          className="bg-secondary outline-none"
+          placeholder="You can search here"
+        />
       )}
     </div>
   );

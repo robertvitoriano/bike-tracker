@@ -1,4 +1,9 @@
-import { faHouse, faMap, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouse,
+  faMap,
+  faPeopleGroup,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 export const navigationLinks = [
   {
     title: "Home",
@@ -9,6 +14,11 @@ export const navigationLinks = [
     title: "Explore",
     icon: faMap,
     path: "/explore",
+  },
+  {
+    title: "Groups",
+    icon: faPeopleGroup,
+    path: "/groups",
   },
   {
     title: "Profile",
