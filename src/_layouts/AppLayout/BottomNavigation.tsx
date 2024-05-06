@@ -1,9 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleStop,
-  faHouse,
-  faMap,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleStop } from "@fortawesome/free-solid-svg-icons";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
 import { useDialogStore } from "@/lib/store/useDialogStore";
 import { useNavigate, useLocation } from "react-router-dom";
