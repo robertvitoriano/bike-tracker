@@ -113,28 +113,14 @@ export function Explore() {
 
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
-      {isTrackingPosition && (
-        <div className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50">
-          <h1>Time elapsed: {getFormattedTime(currentTrackTime)}</h1>
-          {currentTrackDistance < 1 ? (
-            <h1>
-              Total Distance: {(currentTrackDistance * 1000).toFixed(2)} meters
-            </h1>
-          ) : (
-            <h1>Total Distance: {currentTrackDistance.toFixed(2)} Km</h1>
-          )}
+      {!displayTrackSavingPopOver && !openSavedTracksDrawer && (
+        <div
+          onClick={() => setOpenSavedTracksDrawer(true)}
+          className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50"
+        >
+          <h1>Open saved Tracks</h1>
         </div>
       )}
-      {!isTrackingPosition &&
-        !displayTrackSavingPopOver &&
-        !openSavedTracksDrawer && (
-          <div
-            onClick={() => setOpenSavedTracksDrawer(true)}
-            className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50"
-          >
-            <h1>Open saved Tracks</h1>
-          </div>
-        )}
       <SavedTracksDrawer
         open={openSavedTracksDrawer}
         handleSavedTrackSelection={handleSavedTrackSelection}
@@ -147,7 +133,7 @@ export function Explore() {
           mapStyle={selectedLayer}
           id="exploreMap"
         >
-          {(isTrackingPosition || savedTrackSelected) && (
+          {savedTrackSelected && (
             <Source
               id="userPath"
               type="geojson"

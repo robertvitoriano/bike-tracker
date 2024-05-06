@@ -53,6 +53,12 @@ export const BottomNavigation = () => {
     toggleTrackingPosition();
   }
 
+  function handleLinkClick(link) {
+    if (isTrackingPosition) {
+      return handlePauseTrackingButtonClick();
+    }
+    navigate(link.path);
+  }
   return (
     <>
       {
@@ -62,7 +68,7 @@ export const BottomNavigation = () => {
               <FontAwesomeIcon
                 icon={link.icon}
                 className={`text-[1.5rem] ${location.pathname === link.path && "text-secondary"} cursor-pointer `}
-                onClick={() => navigate(link.path)}
+                onClick={() => handleLinkClick(link.path)}
               />
             ))}
           </div>
