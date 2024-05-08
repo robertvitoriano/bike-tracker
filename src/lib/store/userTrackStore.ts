@@ -6,6 +6,11 @@ export const useUserTrackStore = create((set) => ({
   selectedSaveTrack: null,
   currentTrackTime: 0,
   currentTrackDistance: 0,
+  isTakingScreenShot: false,
+  toggleIsTakingScreenShot: () =>
+    set((state) => {
+      return { isTakingScreenShot: !state.isTakingScreenShot };
+    }),
   updateCurrentTrackTime: () =>
     set((state) => {
       return { currentTrackTime: state.currentTrackTime + 1 };
