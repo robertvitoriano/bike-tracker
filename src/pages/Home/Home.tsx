@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 import { getUserTracks } from "@/api/get-user-tracks";
-import stravaMockPath from "../../assets/strava-mock-path.jpg";
 export function Home() {
   const { data: statistics, isLoading } = useQuery({
     queryKey: ["get-user-statistics"],
@@ -97,7 +96,7 @@ export function Home() {
                   )}
                 </div>
               </div>
-              <img src={stravaMockPath} className="h-80 w-80" />
+              <img src={track.image} className="h-80 w-80" />
             </div>
           ))
         )}
