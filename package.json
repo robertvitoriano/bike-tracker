@@ -40,6 +40,7 @@
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
     "geojson-tools": "^0.2.2",
+    "html2canvas": "^1.4.1",
     "lucide-react": "^0.372.0",
     "mapbox-gl": "^3.3.0",
     "prettier": "^3.2.5",

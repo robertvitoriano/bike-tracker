@@ -10,10 +10,11 @@ export function Home() {
     queryKey: ["get-user-statistics"],
     queryFn: getUserStatistics,
   });
-  const { data: userSavedTracks, isLoadingUserSavedTracks } = useQuery({
-    queryKey: ["get-user-tracks"],
-    queryFn: getUserTracks,
-  });
+  const { data: userSavedTracks, isLoading: isLoadingUserSavedTracks } =
+    useQuery({
+      queryKey: ["get-user-tracks"],
+      queryFn: getUserTracks,
+    });
   return (
     <div className="bg-muted flex flex-col gap-4">
       <div className="flex flex-col gap-4 py-4 bg-secondary">
@@ -55,7 +56,7 @@ export function Home() {
       </div>
       <div className="p-4 bg-secondary flex flex-col gap-4">
         {isLoadingUserSavedTracks && <Skeleton className="h-10" />}
-        {userSavedTracks && userSavedTracks.length === 0 ? (
+        {!isLoadingUserSavedTracks && userSavedTracks.length === 0 ? (
           <h1>You don't have any track</h1>
         ) : (
           userSavedTracks &&
