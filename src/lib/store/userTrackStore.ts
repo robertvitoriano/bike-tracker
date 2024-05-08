@@ -1,23 +1,24 @@
 import { create } from "zustand";
 import { getDistance } from "geojson-tools";
+import { mockCoordinates } from "@/assets/mock-coordinates";
 export const useUserTrackStore = create((set) => ({
-  userCurrentTrack: [],
+  userCurrentTrack: mockCoordinates,
   isTrackingPosition: false,
   selectedSaveTrack: null,
   currentTrackTime: 0,
   currentTrackDistance: 0,
   isTakingScreenShot: false,
-  toggleIsTakingScreenShot: () =>
-    set((state) => {
-      return { isTakingScreenShot: !state.isTakingScreenShot };
-    }),
+  toggleTakingScreenShot: () =>
+    set((state) => ({
+      isTakingScreenShot: !state.isTakingScreenShot,
+    })),
   updateCurrentTrackTime: () =>
     set((state) => {
       return { currentTrackTime: state.currentTrackTime + 1 };
     }),
   updateCurrentTrackDistance: () =>
     set((state) => {
-      return { currentTrackDistance: getDistance(state.userCurrentTrack, 4) };
+      return { currentTrackDistance: getDistance(mockCoordinates, 4) };
     }),
   clearCurrentTrackDistance: () =>
     set(() => ({
@@ -38,13 +39,13 @@ export const useUserTrackStore = create((set) => ({
   addCoordinateToCurrentTrack: ([longitude, latitude]) =>
     set((state) => {
       return {
-        userCurrentTrack: [...state.userCurrentTrack, [longitude, latitude]],
+        userCurrentTrack: mockCoordinates,
       };
     }),
   cleanCurrentTrack: () =>
     set(() => {
       return {
-        userCurrentTrack: [],
+        userCurrentTrack: mockCoordinates,
       };
     }),
   cleanSelectedTrack: () =>

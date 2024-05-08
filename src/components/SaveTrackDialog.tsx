@@ -45,16 +45,15 @@ export function SaveTrackDialog() {
   const currentTrackDistance = useUserTrackStore(
     (state: any) => state.currentTrackDistance
   );
-  const toggleIsTakingScreenShot = useUserTrackStore(
-    (state: any) => state.toggleIsTakingScreenShot
+  const toggleTakingScreenShot = useUserTrackStore(
+    (state: any) => state.toggleTakingScreenShot
   );
   const { recordingMap } = useMap();
   async function handleTrackSaving(data) {
-    toggleIsTakingScreenShot();
-
+    toggleTakingScreenShot();
     const centerPosition = userCurrentTrack[userCurrentTrack.length / 2];
     recordingMap.setCenter(centerPosition);
-    const fileUrl = (await addLineStringToTakeScreenShot(recordingMap)) as File;
+    const fileUrl = recordingMap.getCanvas().toDataURL() as unknown as File;
     const trackData: ITrack = {
       title: data.title,
       coordinates: userCurrentTrack,
@@ -66,42 +65,7 @@ export function SaveTrackDialog() {
     cleanCurrentTrack();
     clearCurrentTrackTime();
     toggleTrackSavingPopOver();
-    toggleIsTakingScreenShot();
-  }
-  async function addLineStringToTakeScreenShot(map) {
-    const lineString = {
-      type: "Feature",
-      properties: {},
-      geometry: {
-        type: "LineString",
-        coordinates: userCurrentTrack,
-      },
-    };
-
-    return new Promise((resolve, reject) => {
-      map.on("load", function () {
-        map.addLayer({
-          id: "line",
-          type: "line",
-          source: {
-            type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: [lineString],
-            },
-          },
-          layout: {
-            "line-join": "round",
-            "line-cap": "round",
-          },
-          paint: {
-            "line-color": "#888",
-            "line-width": 8,
-          },
-        });
-      });
-      resolve(map.getCanvas().toDataURL());
-    });
+    toggleTakingScreenShot();
   }
 
   return (

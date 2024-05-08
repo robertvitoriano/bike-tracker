@@ -113,7 +113,7 @@ export default function Record() {
           id="recordingMap"
           preserveDrawingBuffer={true}
         >
-          {(isTrackingPosition || isTakingScreenShot) && (
+          {(isTrackingPosition || !isTakingScreenShot) && (
             <Source
               id="userPath"
               type="geojson"
