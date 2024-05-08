@@ -1,5 +1,4 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { MapProvider } from "react-map-gl";
 import { useEffect } from "react";
 
 import { Header } from "./Header";
@@ -17,13 +16,11 @@ export function AppLayout() {
   const navigate = useNavigate();
   return (
     <div className="flex min-h-screen flex-col relative overflow-hidden">
-      <MapProvider>
-        <Header />
-        <div className="flex flex-col">
-          <Outlet />
-        </div>
-        <BottomNavigation />
-      </MapProvider>
+      <Header />
+      <div className="flex flex-col">
+        <Outlet />
+      </div>
+      <BottomNavigation />
     </div>
   );
 }

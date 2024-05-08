@@ -12,8 +12,8 @@ import { DialogHeader } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { useDialogStore } from "@/lib/store/useDialogStore";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
-import { storeUserTrack } from "@/api/store-user-track";
-
+import { ITrack, storeUserTrack } from "@/api/store-user-track";
+import { useMap } from "react-map-gl";
 export function SaveTrackDialog() {
   const {
     register,
@@ -45,18 +45,65 @@ export function SaveTrackDialog() {
   const currentTrackDistance = useUserTrackStore(
     (state: any) => state.currentTrackDistance
   );
+  const toggleIsTakingScreenShot = useUserTrackStore(
+    (state: any) => state.toggleIsTakingScreenShot
+  );
+  const { recordingMap } = useMap();
   async function handleTrackSaving(data) {
-    cleanCurrentTrack();
-    const trackData = {
+    toggleIsTakingScreenShot();
+
+    const centerPosition = userCurrentTrack[userCurrentTrack.length / 2];
+    recordingMap.setCenter(centerPosition);
+    const fileUrl = (await addLineStringToTakeScreenShot(recordingMap)) as File;
+    const trackData: ITrack = {
       title: data.title,
       coordinates: userCurrentTrack,
       time: currentTrackTime,
       distance: currentTrackDistance,
+      image: fileUrl,
     };
     await storeUserTrackFn(trackData);
+    cleanCurrentTrack();
     clearCurrentTrackTime();
     toggleTrackSavingPopOver();
+    toggleIsTakingScreenShot();
   }
+  async function addLineStringToTakeScreenShot(map) {
+    const lineString = {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "LineString",
+        coordinates: userCurrentTrack,
+      },
+    };
+
+    return new Promise((resolve, reject) => {
+      map.on("load", function () {
+        map.addLayer({
+          id: "line",
+          type: "line",
+          source: {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: [lineString],
+            },
+          },
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "#888",
+            "line-width": 8,
+          },
+        });
+      });
+      resolve(map.getCanvas().toDataURL());
+    });
+  }
+
   return (
     <Dialog open={displayTrackSavingPopOver}>
       <DialogContent className="sm:max-w-[425px]">

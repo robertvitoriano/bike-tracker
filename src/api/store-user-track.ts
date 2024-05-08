@@ -4,8 +4,21 @@ export interface ITrack {
   title: string;
   distance: number;
   time: number;
+  image: File;
 }
 
 export async function storeUserTrack(track: ITrack) {
-  await api.post("/tracks", track);
+  const formData = new FormData();
+  formData.append("title", track.title);
+  formData.append("distance", track.distance.toString());
+  formData.append("time", track.time.toString());
+  formData.append("image", track.image);
+
+  formData.append("coordinates", JSON.stringify(track.coordinates));
+
+  await api.post("/tracks", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 }

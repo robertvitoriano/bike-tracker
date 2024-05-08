@@ -51,6 +51,9 @@ export default function Record() {
   const currentTrackDistance = useUserTrackStore(
     (state: any) => state.currentTrackDistance
   );
+  const isTakingScreenShot = useUserTrackStore(
+    (state: any) => state.isTakingScreenShot
+  );
   const { recordingMap } = useMap();
   const pathRef = useRef(null);
 
@@ -108,8 +111,9 @@ export default function Record() {
           initialViewState={initialState}
           mapStyle={selectedLayer}
           id="recordingMap"
+          preserveDrawingBuffer={true}
         >
-          {isTrackingPosition && (
+          {(isTrackingPosition || isTakingScreenShot) && (
             <Source
               id="userPath"
               type="geojson"
