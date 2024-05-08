@@ -54,14 +54,17 @@ export function Home() {
           </div>
         </div>
       </div>
-      <div className="p-4 bg-secondary flex flex-col gap-4">
+      <div className="flex flex-col gap-8 bg-muted">
         {isLoadingUserSavedTracks && <Skeleton className="h-10" />}
         {!isLoadingUserSavedTracks && userSavedTracks.length === 0 ? (
           <h1>You don't have any track</h1>
         ) : (
           userSavedTracks &&
           userSavedTracks.map((track) => (
-            <div key={track._id} className="flex flex-col items-center">
+            <div
+              key={track._id}
+              className="flex flex-col items-center bg-secondary px-4 py-8"
+            >
               <div className="w-full">
                 <h1 className="text-center text-4xl font-bold">
                   {!isLoadingUserSavedTracks ? (
