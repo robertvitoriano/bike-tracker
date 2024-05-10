@@ -7,7 +7,7 @@
 [x] user must be able to play and pause tracking
 [ ] user must be able to add soundtrack to a tracking
 [ ] user must be able to see Speed
-[ ] user must be able to see Distance currently tracked
+[x] user must be able to see Distance currently tracked
 
 [ ] user must be able to see speed in real time
 [ ] user must be able to add dificult to a track
@@ -18,3 +18,5 @@
   [ ] if public it will be visible and classifieble by every user
   [ ] if its private only the creator will have ability to see it.
 [ ] user can add animals to locations or tracks
+
+[ ] add wizard for saving track with slider in order to let the user adjust the appropriate zoom
