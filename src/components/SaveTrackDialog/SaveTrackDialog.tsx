@@ -51,16 +51,12 @@ export function SaveTrackDialog() {
   const currentTrackDistance = useUserTrackStore(
     (state: any) => state.currentTrackDistance
   );
-  const toggleTakingScreenShot = useUserTrackStore(
-    (state: any) => state.toggleTakingScreenShot
-  );
+
   const { trackSavingMap } = useMap();
   const pathRef = useRef(null);
 
   const [screenshotZoom, setScreenshotZoom] = useState(14);
   async function handleTrackSaving(data) {
-    toggleTakingScreenShot();
-
     const fileUrl = trackSavingMap.getCanvas().toDataURL() as unknown as File;
     const trackData: ITrack = {
       title: data.title,
@@ -73,7 +69,6 @@ export function SaveTrackDialog() {
     cleanCurrentTrack();
     clearCurrentTrackTime();
     toggleTrackSavingPopOver();
-    toggleTakingScreenShot();
   }
 
   const trackCenter = userCurrentTrack[userCurrentTrack.length / 2];
