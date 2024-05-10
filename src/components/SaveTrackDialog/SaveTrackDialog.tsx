@@ -7,9 +7,9 @@ import {
 import { Label } from "@/components/ui/label";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { Button } from "./ui/button";
-import { DialogHeader } from "./ui/dialog";
-import { Input } from "./ui/input";
+import { Button } from "../ui/button";
+import { DialogHeader } from "../ui/dialog";
+import { Input } from "../ui/input";
 import { useDialogStore } from "@/lib/store/useDialogStore";
 import { useUserTrackStore } from "@/lib/store/userTrackStore";
 import { ITrack, storeUserTrack } from "@/api/store-user-track";
@@ -90,7 +90,7 @@ export function SaveTrackDialog() {
           >
             Save new track
           </Button>
-          {userCurrentTrack.length <= 1 && (
+          {!isSubmitting && userCurrentTrack.length <= 1 && (
             <span className="text-red-500">
               Current track is not long enough to be saved, ride more!
             </span>

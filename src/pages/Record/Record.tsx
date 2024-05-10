@@ -12,6 +12,8 @@ import { env } from "../../../env";
 import { useTracking } from "@/lib/hooks/useTracking";
 
 import { MapConfigurations } from "./MapConfigurations";
+import { SaveTrackDialog } from "@/components/SaveTrackDialog/SaveTrackDialog";
+import { PauseTrackingDialog } from "@/components/PauseTrackingDialog";
 export default function Record() {
   type mapStyleType =
     | string
@@ -167,6 +169,8 @@ export default function Record() {
           />
         </div>
       </div>
+      <SaveTrackDialog />
+      <PauseTrackingDialog />
     </div>
   );
 }
