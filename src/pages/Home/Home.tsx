@@ -53,7 +53,7 @@ export function Home() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-8 bg-muted">
+      <div className="flex flex-col gap-8 bg-muted py-8">
         {isLoadingUserSavedTracks && <Skeleton className="h-10" />}
         {!isLoadingUserSavedTracks && userSavedTracks.length === 0 ? (
           <h1>You don't have any track</h1>
@@ -90,13 +90,15 @@ export function Home() {
                 </div>
                 <div className="p-4 bg-white">
                   {!isLoadingUserSavedTracks ? (
-                    <span className="text-xl">{track.distance} Km</span>
+                    <span className="text-xl">
+                      {track.distance.toFixed(2)} Km
+                    </span>
                   ) : (
                     <Skeleton className="h-4 w-full" />
                   )}
                 </div>
               </div>
-              <img src={track.image} className="h-80 w-80" />
+              <img src={track.image} />
             </div>
           ))
         )}
