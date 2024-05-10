@@ -71,7 +71,9 @@ export function SaveTrackDialog() {
     toggleTrackSavingPopOver();
   }
 
-  const trackCenter = userCurrentTrack[userCurrentTrack.length / 2];
+  const trackCenter =
+    userCurrentTrack[Math.floor(userCurrentTrack.length / 2)] ||
+    userCurrentTrack[0];
 
   return (
     <Dialog open={displayTrackSavingPopOver}>
