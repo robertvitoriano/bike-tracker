@@ -18,6 +18,8 @@
 [ ] place can be private or public
   [ ] if public it will be visible and classifieble by every user
   [ ] if its private only the creator will have ability to see it.
+  [ ] when click in a place, user will be able to see a location pop over that can open a modal
+  [ ] when click in a place, user will be able to see the possible tracks already saved less opach and in different colors
   
 [ ] user can add animals to locations or tracks
 
@@ -28,3 +30,4 @@
   [ ] when saving track, user is going to see the started location inserted before and will be able to update it 
   [ ] when saving track, user is going to be requested to insert the finish location and  save the track
 
+[ ] add public ranking
