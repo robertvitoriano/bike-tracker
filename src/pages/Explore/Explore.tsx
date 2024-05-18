@@ -166,6 +166,13 @@ export function Explore() {
               />
             </Source>
           )}
+          {isUserLocationMarkerShowing && (
+            <MapMarker {...userCurrentPosition}>
+              <div
+                className={`h-4 w-4 rounded-full bg-[#007cbf] border border-solid border-white`}
+              ></div>
+            </MapMarker>
+          )}
           {!isLoadingUserLocations &&
             userLocations.map((location) => (
               <MapMarker
