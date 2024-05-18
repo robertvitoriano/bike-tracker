@@ -4,6 +4,7 @@ import { useMap } from "react-map-gl";
 import { ImmutableLike } from "react-map-gl/dist/esm/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faFlagCheckered,
   faLocationCrosshairs,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
@@ -36,9 +37,6 @@ export function Explore() {
     useState<boolean>(false);
   const [savedTrackSelected, setSavedTrackSelected] = useState(false);
 
-  const userCurrentPosition = useUserTrackStore(
-    (state: any) => state.userCurrentPosition
-  );
   const setUserCurrentPosition = useUserTrackStore(
     (state: any) => state.setUserCurrentPosition
   );
@@ -97,7 +95,6 @@ export function Explore() {
   function handleSavedTrackSelection(track) {
     selectSavedTrack(track);
     setSavedTrackSelected(true);
-    if (!isUserLocationMarkerShowing) toggleUserLocationMarker();
     const { coordinates } = track;
     const [longitude, latitude] = coordinates[0];
     exploreMap?.flyTo({ center: [longitude, latitude], zoom: 19 });
@@ -107,14 +104,11 @@ export function Explore() {
   function renderLocationIconBasedOnType(type): any {
     switch (type) {
       case "generic":
-        return (
-          <FontAwesomeIcon
-            className="text-4xl text-primary"
-            icon={faLocationDot}
-          />
-        );
+        return <h1>s</h1>;
       case "track-finish":
         return <img src={trackStartIcon} className="h-8" />;
+      case "track-start":
+        return <FontAwesomeIcon icon={faFlagCheckered} className="h-8" />;
     }
     return (
       <FontAwesomeIcon className="text-4xl text-primary" icon={faLocationDot} />
@@ -166,13 +160,6 @@ export function Explore() {
                 paint={{ "line-color": "#0972aa", "line-width": 5 }}
               />
             </Source>
-          )}
-          {isUserLocationMarkerShowing && (
-            <MapMarker {...userCurrentPosition}>
-              <div
-                className={`h-4 w-4 rounded-full bg-[#007cbf] border border-solid border-white`}
-              ></div>
-            </MapMarker>
           )}
           {!isLoadingUserLocations &&
             userLocations.map((location) => (
