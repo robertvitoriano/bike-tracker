@@ -5,6 +5,9 @@ export interface ITrack {
   distance: number;
   time: number;
   image: File;
+  visibility: "public" | "private";
+  startLocationTitle: string;
+  finishLocationTitle: string;
 }
 
 export async function storeUserTrack(track: ITrack) {

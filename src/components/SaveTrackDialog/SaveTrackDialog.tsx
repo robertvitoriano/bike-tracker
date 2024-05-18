@@ -64,6 +64,9 @@ export function SaveTrackDialog() {
       time: currentTrackTime,
       distance: currentTrackDistance,
       image: fileUrl,
+      visibility: "public",
+      startLocationTitle: "Inicio da rota",
+      finishLocationTitle: "fim da rota",
     };
     await storeUserTrackFn(trackData);
     cleanCurrentTrack();
