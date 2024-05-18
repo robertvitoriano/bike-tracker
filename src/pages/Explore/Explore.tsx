@@ -113,8 +113,8 @@ export function Explore() {
             icon={faLocationDot}
           />
         );
-      case "track-start":
-        return <img src={trackStartIcon} />;
+      case "track-finish":
+        return <img src={trackStartIcon} className="h-8" />;
     }
     return (
       <FontAwesomeIcon className="text-4xl text-primary" icon={faLocationDot} />
