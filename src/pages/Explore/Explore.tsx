@@ -37,6 +37,9 @@ export function Explore() {
     useState<boolean>(false);
   const [savedTrackSelected, setSavedTrackSelected] = useState(false);
 
+  const userCurrentPosition = useUserTrackStore(
+    (state: any) => state.userCurrentPosition
+  );
   const setUserCurrentPosition = useUserTrackStore(
     (state: any) => state.setUserCurrentPosition
   );
@@ -104,7 +107,12 @@ export function Explore() {
   function renderLocationIconBasedOnType(type): any {
     switch (type) {
       case "generic":
-        return <h1>s</h1>;
+        return (
+          <FontAwesomeIcon
+            className="text-4xl text-primary"
+            icon={faLocationDot}
+          />
+        );
       case "track-finish":
         return <img src={trackStartIcon} className="h-8" />;
       case "track-start":
