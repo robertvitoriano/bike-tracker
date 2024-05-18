@@ -16,8 +16,10 @@ export async function storeUserTrack(track: ITrack) {
   formData.append("distance", track.distance.toString());
   formData.append("time", track.time.toString());
   formData.append("image", track.image);
-
   formData.append("coordinates", JSON.stringify(track.coordinates));
+  formData.append("visibility", track.visibility);
+  formData.append("startLocationTitle", track.startLocationTitle);
+  formData.append("finishLocationTitle", track.finishLocationTitle);
 
   await api.post("/tracks", formData, {
     headers: {
