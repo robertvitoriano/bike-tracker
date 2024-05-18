@@ -7,6 +7,7 @@ type ILocation = {
   userId: string;
   createdAt: string;
   coordinates: [number, number];
+  type: "generic" | "track-finish" | "track-start";
 };
 
 export async function getUserLocations(): Promise<ILocation[]> {

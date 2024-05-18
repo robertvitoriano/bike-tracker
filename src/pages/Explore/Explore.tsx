@@ -19,6 +19,7 @@ import { SavedTracksDrawer } from "./SavedTracksDrawer";
 import { MapConfigurations } from "./MapConfigurations";
 import { getUserLocations } from "@/api/get-locations";
 import { useQuery } from "@tanstack/react-query";
+import trackStartIcon from "@/assets/pennant-flag.png";
 export function Explore() {
   type mapStyleType =
     | string
@@ -103,6 +104,23 @@ export function Explore() {
     setOpenSavedTracksDrawer(false);
   }
 
+  function renderLocationIconBasedOnType(type): any {
+    switch (type) {
+      case "generic":
+        return (
+          <FontAwesomeIcon
+            className="text-4xl text-primary"
+            icon={faLocationDot}
+          />
+        );
+      case "track-start":
+        return <img src={trackStartIcon} />;
+    }
+    return (
+      <FontAwesomeIcon className="text-4xl text-primary" icon={faLocationDot} />
+    );
+  }
+
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
       {!displayTrackSavingPopOver && !openSavedTracksDrawer && (
@@ -163,10 +181,7 @@ export function Explore() {
                 longitude={location.coordinates[0]}
                 latitude={location.coordinates[1]}
               >
-                <FontAwesomeIcon
-                  className="text-4xl text-primary"
-                  icon={faLocationDot}
-                />
+                {renderLocationIconBasedOnType(location.type)}
               </MapMarker>
             ))}
           <NavigationControl
