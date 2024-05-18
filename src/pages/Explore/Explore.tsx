@@ -3,7 +3,10 @@ import MapboxMap, { NavigationControl, Source, Layer } from "react-map-gl";
 import { useMap } from "react-map-gl";
 import { ImmutableLike } from "react-map-gl/dist/esm/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationCrosshairs,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
 import { MapMarker } from "./MapMarker";
 import { getCurrentLocation } from "@/lib/utils";
 import { layers } from "@/lib/layers";
@@ -14,6 +17,8 @@ import { env } from "../../../env";
 import { SavedTracksDrawer } from "./SavedTracksDrawer";
 
 import { MapConfigurations } from "./MapConfigurations";
+import { getUserLocations } from "@/api/get-locations";
+import { useQuery } from "@tanstack/react-query";
 export function Explore() {
   type mapStyleType =
     | string
@@ -23,7 +28,6 @@ export function Explore() {
 
   const [initialState, setInitialState] = useState({});
   const [permissionGranted, setPermissionGranted] = useState(false);
-
   const [selectedLayer, setSelectedLayer] = useState<mapStyleType>(
     layers.STREET.url
   );
@@ -54,6 +58,10 @@ export function Explore() {
   );
 
   const { exploreMap } = useMap();
+  const { data: userLocations, isLoading: isLoadingUserLocations } = useQuery({
+    queryKey: ["get-user-locations"],
+    queryFn: getUserLocations,
+  });
   const pathRef = useRef(null);
 
   useEffect(() => {
@@ -148,6 +156,19 @@ export function Explore() {
               ></div>
             </MapMarker>
           )}
+          {!isLoadingUserLocations &&
+            userLocations.map((location) => (
+              <MapMarker
+                key={location._id}
+                longitude={location.coordinates[0]}
+                latitude={location.coordinates[1]}
+              >
+                <FontAwesomeIcon
+                  className="text-4xl text-primary"
+                  icon={faLocationDot}
+                />
+              </MapMarker>
+            ))}
           <NavigationControl
             position="bottom-left"
             style={{ position: "absolute", left: "0.75rem", bottom: "8rem" }}
