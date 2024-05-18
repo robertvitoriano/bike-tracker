@@ -20,7 +20,7 @@ import { SavedTracksDrawer } from "./SavedTracksDrawer";
 import { MapConfigurations } from "./MapConfigurations";
 import { getUserLocations } from "@/api/get-locations";
 import { useQuery } from "@tanstack/react-query";
-import trackStartIcon from "@/assets/pennant-flag.png";
+import trackFinishIcon from "@/assets/pennant-flag.png";
 export function Explore() {
   type mapStyleType =
     | string
@@ -114,13 +114,10 @@ export function Explore() {
           />
         );
       case "track-finish":
-        return <img src={trackStartIcon} className="h-8" />;
+        return <img src={trackFinishIcon} className="h-8" />;
       case "track-start":
         return <FontAwesomeIcon icon={faFlagCheckered} className="h-8" />;
     }
-    return (
-      <FontAwesomeIcon className="text-4xl text-primary" icon={faLocationDot} />
-    );
   }
 
   return (
@@ -176,7 +173,7 @@ export function Explore() {
                 longitude={location.coordinates[0]}
                 latitude={location.coordinates[1]}
               >
-                {renderLocationIconBasedOnType(location.type)}
+                <div>{renderLocationIconBasedOnType(location.type)}</div>
               </MapMarker>
             ))}
           <NavigationControl
