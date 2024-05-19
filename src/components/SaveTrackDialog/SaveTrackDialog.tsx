@@ -19,6 +19,7 @@ import { layers } from "@/lib/layers";
 import { useRef, useState } from "react";
 import { Slider } from "../ui/slider";
 import { env } from "../../../env";
+import { toast } from "sonner";
 
 export function SaveTrackDialog() {
   const {
@@ -69,6 +70,7 @@ export function SaveTrackDialog() {
       finishLocationTitle: "fim da rota",
     };
     await storeUserTrackFn(trackData);
+    toast.success("Track saved!");
     cleanCurrentTrack();
     clearCurrentTrackTime();
     toggleTrackSavingPopOver();
