@@ -3,7 +3,6 @@
 [x] user must be able to play and pause tracking
 [x] user must be able to see Distance currently tracked
 [x] add  slider in order to let the user adjust the appropriate zoom
-[ ] user must be able to see Speed
 [ ] user must be able to see speed in real time
 [ ] user must be able to add dificult to a track
 

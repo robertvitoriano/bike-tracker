@@ -53,6 +53,7 @@ export default function Record() {
   const currentTrackDistance = useUserTrackStore(
     (state: any) => state.currentTrackDistance
   );
+  const currentSpeed = useUserTrackStore((state: any) => state.currentSpeed);
 
   const { recordingMap } = useMap();
   const pathRef = useRef(null);
@@ -103,6 +104,7 @@ export default function Record() {
           ) : (
             <h1>Total Distance: {currentTrackDistance.toFixed(2)} Km</h1>
           )}
+          <h1>Speed:{currentSpeed} Km/h</h1>
         </div>
       )}
       {permissionGranted ? (

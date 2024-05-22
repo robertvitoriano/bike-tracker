@@ -6,7 +6,7 @@ export const useUserTrackStore = create((set) => ({
   selectedSaveTrack: null,
   currentTrackTime: 0,
   currentTrackDistance: 0,
-
+  currentSpeed: 0,
   updateCurrentTrackTime: () =>
     set((state) => {
       return { currentTrackTime: state.currentTrackTime + 1 };
@@ -49,6 +49,13 @@ export const useUserTrackStore = create((set) => ({
         selectedSaveTrack: null,
       };
     }),
+  updateCurrentSpeed: () => {
+    set((state) => {
+      return {
+        currentSpeed: state.currentTrackDistance / 3600,
+      };
+    });
+  },
   userCurrentPosition: { latitude: 0, longitude: 0 },
   setUserCurrentPosition: ({ longitude, latitude }) => {
     set(() => ({

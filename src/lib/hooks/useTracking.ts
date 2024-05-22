@@ -20,6 +20,9 @@ export function useTracking() {
   const isTrackingPosition = useUserTrackStore(
     (state: any) => state.isTrackingPosition
   );
+  const updateCurrentSpeed = useUserTrackStore(
+    (state: any) => state.updateCurrentSpeed
+  );
   const { recordingMap } = useMap();
 
   let tracktTimerId: NodeJS.Timeout;
@@ -63,6 +66,7 @@ export function useTracking() {
     setUserCurrentPosition({ longitude, latitude });
     addCoordinateToCurrentTrack([longitude, latitude]);
     updateCurrentTrackDistance();
+    updateCurrentSpeed();
   }
   function onWatchError(error) {
     console.error("Error watching position:", error);
