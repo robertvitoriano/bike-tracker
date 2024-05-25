@@ -53,7 +53,6 @@ export default function Record() {
   const currentTrackDistance = useUserTrackStore(
     (state: any) => state.currentTrackDistance
   );
-  const currentSpeed = useUserTrackStore((state: any) => state.currentSpeed);
 
   const { recordingMap } = useMap();
   const pathRef = useRef(null);
