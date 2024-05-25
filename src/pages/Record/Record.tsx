@@ -105,7 +105,7 @@ export default function Record() {
           )}
           <h1>
             Speed:{" "}
-            {((currentTrackDistance * 1000) / currentTrackTime).toFixed(2)} m/s
+            {(currentTrackDistance / (currentTrackTime / 3600)).toFixed(2)} Km/h
           </h1>
         </div>
       )}
