@@ -52,7 +52,7 @@ export const useUserTrackStore = create((set) => ({
   updateCurrentSpeed: () => {
     set((state) => {
       return {
-        currentSpeed: state.currentTrackDistance / 3600,
+        currentSpeed: state.currentTrackDistance / state.currentTrackTime,
       };
     });
   },
