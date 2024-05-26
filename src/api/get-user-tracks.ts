@@ -7,6 +7,7 @@ type Track = {
   updatedAt: Date | null;
   coordinates: [[number, number]];
   distance: number;
+  speed: number;
   image: string;
 };
 

@@ -107,6 +107,13 @@ export function Home() {
                     <Skeleton className="h-4 w-full" />
                   )}
                 </div>
+                <div className="p-4 bg-white">
+                  {!isLoadingUserSavedTracks ? (
+                    <span className="text-xl">{track.speed.toFixed(2)} Km</span>
+                  ) : (
+                    <Skeleton className="h-4 w-full" />
+                  )}
+                </div>
               </div>
               <img src={track.image} />
             </div>
