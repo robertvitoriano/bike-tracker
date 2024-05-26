@@ -109,7 +109,9 @@ export function Home() {
                 </div>
                 <div className="p-4 bg-white">
                   {!isLoadingUserSavedTracks ? (
-                    <span className="text-xl">{track.speed.toFixed(2)} Km</span>
+                    <span className="text-xl">
+                      {track.speed.toFixed(2)} Km/h
+                    </span>
                   ) : (
                     <Skeleton className="h-4 w-full" />
                   )}
