@@ -50,6 +50,16 @@ export function Home() {
                 )}
               </span>
             </div>
+            <div className="flex flex-col gap-2">
+              <span className="text-xs">Average speed</span>
+              <span className=" text-2xl font-bold">
+                {!isLoading ? (
+                  `${statistics?.averageSpeed?.toFixed(2) || 0} Km/h`
+                ) : (
+                  <Skeleton className="h-4 w-full" />
+                )}
+              </span>
+            </div>
           </div>
         </div>
       </div>

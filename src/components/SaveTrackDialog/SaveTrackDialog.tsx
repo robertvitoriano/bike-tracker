@@ -64,6 +64,7 @@ export function SaveTrackDialog() {
       coordinates: userCurrentTrack,
       time: currentTrackTime,
       distance: currentTrackDistance,
+      speed: currentTrackDistance / (currentTrackTime / 3600),
       image: fileUrl,
       visibility: "public",
       startLocationTitle: "Inicio da rota",

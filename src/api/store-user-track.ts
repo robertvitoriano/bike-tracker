@@ -3,6 +3,7 @@ export interface ITrack {
   coordinates: [[number, number]];
   title: string;
   distance: number;
+  speed: number;
   time: number;
   image: File;
   visibility: "public" | "private";
@@ -16,6 +17,7 @@ export async function storeUserTrack(track: ITrack) {
   formData.append("distance", track.distance.toString());
   formData.append("time", track.time.toString());
   formData.append("image", track.image);
+  formData.append("speed", track.speed.toString());
   formData.append("coordinates", JSON.stringify(track.coordinates));
   formData.append("visibility", track.visibility);
   formData.append("startLocationTitle", track.startLocationTitle);
