@@ -1,4 +1,4 @@
-package com.example.biketracker;
+package com.bike.biketracker;
 
 import com.getcapacitor.BridgeActivity;
 
