@@ -31,32 +31,32 @@ export function Explore() {
   const [initialState, setInitialState] = useState({});
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [selectedLayer, setSelectedLayer] = useState<mapStyleType>(
-    layers.STREET.url
+    layers.STREET.url,
   );
   const [openSavedTracksDrawer, setOpenSavedTracksDrawer] =
     useState<boolean>(false);
   const [savedTrackSelected, setSavedTrackSelected] = useState(false);
 
   const userCurrentPosition = useUserTrackStore(
-    (state: any) => state.userCurrentPosition
+    (state: any) => state.userCurrentPosition,
   );
   const setUserCurrentPosition = useUserTrackStore(
-    (state: any) => state.setUserCurrentPosition
+    (state: any) => state.setUserCurrentPosition,
   );
   const toggleUserLocationMarker = useUserTrackStore(
-    (state: any) => state.toggleUserLocationMarker
+    (state: any) => state.toggleUserLocationMarker,
   );
   const isUserLocationMarkerShowing = useUserTrackStore(
-    (state: any) => state.isUserLocationMarkerShowing
+    (state: any) => state.isUserLocationMarkerShowing,
   );
   const displayTrackSavingPopOver = useDialogStore(
-    (state: any) => state.displayTrackSavingPopOver
+    (state: any) => state.displayTrackSavingPopOver,
   );
   const selectedSaveTrack = useUserTrackStore(
-    (state: any) => state.selectedSaveTrack
+    (state: any) => state.selectedSaveTrack,
   );
   const selectSavedTrack = useUserTrackStore(
-    (state: any) => state.selectSavedTrack
+    (state: any) => state.selectSavedTrack,
   );
 
   const { exploreMap } = useMap();

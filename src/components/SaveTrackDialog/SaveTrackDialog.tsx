@@ -32,25 +32,25 @@ export function SaveTrackDialog() {
   });
 
   const displayTrackSavingPopOver = useDialogStore(
-    (state: any) => state.displayTrackSavingPopOver
+    (state: any) => state.displayTrackSavingPopOver,
   );
   const userCurrentTrack = useUserTrackStore(
-    (state: any) => state.userCurrentTrack
+    (state: any) => state.userCurrentTrack,
   );
   const toggleTrackSavingPopOver = useDialogStore(
-    (state: any) => state.toggleTrackSavingPopOver
+    (state: any) => state.toggleTrackSavingPopOver,
   );
   const cleanCurrentTrack = useUserTrackStore(
-    (state: any) => state.cleanCurrentTrack
+    (state: any) => state.cleanCurrentTrack,
   );
   const currentTrackTime = useUserTrackStore(
-    (state: any) => state.currentTrackTime
+    (state: any) => state.currentTrackTime,
   );
   const clearCurrentTrackTime = useUserTrackStore(
-    (state: any) => state.clearCurrentTrackTime
+    (state: any) => state.clearCurrentTrackTime,
   );
   const currentTrackDistance = useUserTrackStore(
-    (state: any) => state.currentTrackDistance
+    (state: any) => state.currentTrackDistance,
   );
 
   const { trackSavingMap } = useMap();

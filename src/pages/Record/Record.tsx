@@ -25,33 +25,33 @@ export default function Record() {
   const [permissionGranted, setPermissionGranted] = useState(false);
 
   const [selectedLayer, setSelectedLayer] = useState<mapStyleType>(
-    layers.STREET.url
+    layers.STREET.url,
   );
 
   const userCurrentTrack = useUserTrackStore(
-    (state: any) => state.userCurrentTrack
+    (state: any) => state.userCurrentTrack,
   );
   const userCurrentPosition = useUserTrackStore(
-    (state: any) => state.userCurrentPosition
+    (state: any) => state.userCurrentPosition,
   );
   const setUserCurrentPosition = useUserTrackStore(
-    (state: any) => state.setUserCurrentPosition
+    (state: any) => state.setUserCurrentPosition,
   );
   const isTrackingPosition = useUserTrackStore(
-    (state: any) => state.isTrackingPosition
+    (state: any) => state.isTrackingPosition,
   );
   const toggleUserLocationMarker = useUserTrackStore(
-    (state: any) => state.toggleUserLocationMarker
+    (state: any) => state.toggleUserLocationMarker,
   );
   const isUserLocationMarkerShowing = useUserTrackStore(
-    (state: any) => state.isUserLocationMarkerShowing
+    (state: any) => state.isUserLocationMarkerShowing,
   );
 
   const currentTrackTime = useUserTrackStore(
-    (state: any) => state.currentTrackTime
+    (state: any) => state.currentTrackTime,
   );
   const currentTrackDistance = useUserTrackStore(
-    (state: any) => state.currentTrackDistance
+    (state: any) => state.currentTrackDistance,
   );
 
   const { recordingMap } = useMap();

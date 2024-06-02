@@ -12,7 +12,8 @@
     "sync": "npx cap sync",
     "show-logs": "logkitty android 'console.log'",
     "build-android": "ionic capacitor build android",
-    "deploy":"npm run build && aws s3 sync dist/ s3://biketracker-web --acl public-read"
+    "deploy": "npm run build && aws s3 sync dist/ s3://biketracker-web --acl public-read",
+    "update-icon-and-splash": "npx capacitor-assets generate"
   },
   "dependencies": {
     "@capacitor/android": "^6.0.0",
@@ -60,6 +61,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "6.0.0",
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.66",

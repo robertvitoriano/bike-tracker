@@ -8,24 +8,24 @@ export const BottomNavigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isTrackingPosition = useUserTrackStore(
-    (state: any) => state.isTrackingPosition
+    (state: any) => state.isTrackingPosition,
   );
   const toggleTrackingPosition = useUserTrackStore(
-    (state: any) => state.toggleTrackingPosition
+    (state: any) => state.toggleTrackingPosition,
   );
   const toggleUserLocationMarker = useUserTrackStore(
-    (state: any) => state.toggleUserLocationMarker
+    (state: any) => state.toggleUserLocationMarker,
   );
   const isUserLocationMarkerShowing = useUserTrackStore(
-    (state: any) => state.isUserLocationMarkerShowing
+    (state: any) => state.isUserLocationMarkerShowing,
   );
 
   const cleanSelectedTrack = useUserTrackStore(
-    (state: any) => state.cleanSelectedTrack
+    (state: any) => state.cleanSelectedTrack,
   );
 
   const togglePauseTrackPopOver = useDialogStore(
-    (state: any) => state.togglePauseTrackPopOver
+    (state: any) => state.togglePauseTrackPopOver,
   );
 
   function startTrackingUserPosition() {

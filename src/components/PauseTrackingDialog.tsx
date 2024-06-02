@@ -10,25 +10,25 @@ import { useUserTrackStore } from "@/lib/store/userTrackStore";
 import { useDialogStore } from "@/lib/store/useDialogStore";
 export function PauseTrackingDialog() {
   const cleanCurrentTrack = useUserTrackStore(
-    (state: any) => state.cleanCurrentTrack
+    (state: any) => state.cleanCurrentTrack,
   );
   const clearCurrentTrackDistance = useUserTrackStore(
-    (state: any) => state.clearCurrentTrackDistance
+    (state: any) => state.clearCurrentTrackDistance,
   );
   const clearCurrentTrackTime = useUserTrackStore(
-    (state: any) => state.clearCurrentTrackTime
+    (state: any) => state.clearCurrentTrackTime,
   );
   const toggleTrackSavingPopOver = useDialogStore(
-    (state: any) => state.toggleTrackSavingPopOver
+    (state: any) => state.toggleTrackSavingPopOver,
   );
   const toggleTrackingPosition = useUserTrackStore(
-    (state: any) => state.toggleTrackingPosition
+    (state: any) => state.toggleTrackingPosition,
   );
   const togglePauseTrackPopOver = useDialogStore(
-    (state: any) => state.togglePauseTrackPopOver
+    (state: any) => state.togglePauseTrackPopOver,
   );
   const displayPauseTrackPopOver = useDialogStore(
-    (state: any) => state.displayPauseTrackPopOver
+    (state: any) => state.displayPauseTrackPopOver,
   );
   function handleResumeTrackingButtonClick() {
     toggleTrackingPosition();
