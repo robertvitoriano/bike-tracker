@@ -36,7 +36,7 @@ export const SignIn = () => {
     }
   }
   return (
-    <div className="w-full h-full flex justify-center items-center flex-col gap-8">
+    <div className="w-full h-fit flex justify-center items-center flex-col gap-8">
       <h1 className="text-white font-bold text-2xl">
         Sign in and start to ride!
       </h1>
@@ -58,7 +58,7 @@ export const SignIn = () => {
         </Button>
       </form>
       <span
-        className=" cursor-pointer hover:text-white hover:underline"
+        className=" cursor-pointer text-white hover:underline"
         onClick={() => navigate("/sign-up")}
       >
         Don't have an account yet ? click here to sign up!
