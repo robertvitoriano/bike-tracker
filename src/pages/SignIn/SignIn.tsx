@@ -1,13 +1,15 @@
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { signIn } from "@/api/sign-in";
 import { signInGoogle } from "@/api/sign-in-google";
 import googleIcon from "@/assets/Logo-google-icon.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/lib/store/authStore";
 const signInForm = z.object({
   email: z.string(),
   password: z.string(),
@@ -16,6 +18,10 @@ const signInForm = z.object({
 type SignInForm = z.infer<typeof signInForm>;
 
 export const SignIn = () => {
+  useEffect(() => {
+    verifyGoogleLogin();
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -29,6 +35,8 @@ export const SignIn = () => {
   });
   const navigate = useNavigate();
 
+  const setToken = useAuthStore((state: any) => state.setToken);
+
   async function handleSignIn(data: SignInForm) {
     try {
       await signFn({
@@ -38,6 +46,15 @@ export const SignIn = () => {
       navigate("/");
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async function verifyGoogleLogin() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    if (token) {
+      setToken(token);
+      navigate("/");
     }
   }
   return (
