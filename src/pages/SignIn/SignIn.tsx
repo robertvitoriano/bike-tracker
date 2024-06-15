@@ -1,4 +1,6 @@
 import { signIn } from "@/api/sign-in";
+import { signInGoogle } from "@/api/sign-in-google";
+import googleIcon from "@/assets/Logo-google-icon.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,6 +23,9 @@ export const SignIn = () => {
   } = useForm<SignInForm>();
   const { mutateAsync: signFn } = useMutation({
     mutationFn: signIn,
+  });
+  const { mutateAsync: signInGoogleFn } = useMutation({
+    mutationFn: signInGoogle,
   });
   const navigate = useNavigate();
 
@@ -57,6 +62,13 @@ export const SignIn = () => {
           Sign In
         </Button>
       </form>
+      <div
+        className="p-4 flex gap-4 items-center bg-white rounded-full cursor-pointer"
+        onClick={() => signInGoogleFn()}
+      >
+        <img src={googleIcon} className="h-8 w-8 rounded-full" />
+        <span>Continue with Google</span>
+      </div>
       <span
         className=" cursor-pointer text-white hover:underline"
         onClick={() => navigate("/sign-up")}
