@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 interface IAuthStore {
-  loggedUser: { name: string; email: string; username: string };
+  loggedUser: { name: string; email: string; username: string; avatar: string };
   token: string;
   setLoggedUser: Function;
   setToken: Function;

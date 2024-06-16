@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { useAuthStore } from "@/lib/store/authStore";
+import { getProfile } from "@/api/get-profile";
 const signInForm = z.object({
   email: z.string(),
   password: z.string(),
@@ -18,24 +19,36 @@ const signInForm = z.object({
 type SignInForm = z.infer<typeof signInForm>;
 
 export const SignIn = () => {
+  const setToken = useAuthStore((state: any) => state.setToken);
+  const token = useAuthStore((state: any) => state.token);
+  const setLoggedUser = useAuthStore((state: any) => state.setLoggedUser);
+  const { data: profile } = useQuery({
+    queryKey: ["get-profile"],
+    queryFn: getProfile,
+    enabled: !!token,
+  });
   useEffect(() => {
     verifyGoogleLogin();
   }, []);
+
+  useEffect(() => {
+    handleGoogleLoginSuccess();
+  }, [profile]);
 
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<SignInForm>();
+
   const { mutateAsync: signFn } = useMutation({
     mutationFn: signIn,
   });
   const { mutateAsync: signInGoogleFn } = useMutation({
     mutationFn: signInGoogle,
   });
-  const navigate = useNavigate();
 
-  const setToken = useAuthStore((state: any) => state.setToken);
+  const navigate = useNavigate();
 
   async function handleSignIn(data: SignInForm) {
     try {
@@ -48,14 +61,18 @@ export const SignIn = () => {
       console.error(error);
     }
   }
+  function handleGoogleLoginSuccess() {
+    if (profile) {
+      setLoggedUser(profile);
+      navigate("/");
+    }
+  }
 
   async function verifyGoogleLogin() {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
     if (token) {
-      console.log({ tokenUrl: window.location.href });
       setToken(token);
-      navigate("/");
     }
   }
   return (
