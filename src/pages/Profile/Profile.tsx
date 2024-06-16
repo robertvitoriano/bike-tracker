@@ -12,11 +12,11 @@ export function Profile() {
     navigate("/");
   }
   return (
-    <div className="flex flex-col w-screen h-screen items-center gap-10 relative bg-primary pt-8">
-      <h1 className="text-2xl">{loggedUser.name}</h1>
+    <div className="flex flex-col w-screen h-screen items-center gap-10 relative bg-secondary pt-8">
+      <h1 className="text-2xl text-primary">{loggedUser.name}</h1>
       <img src={loggedUser.avatar} className="h-44 w-44 rounded-full" />
       <div
-        className="text-black bg-secondary hover:text-white hover:bg-black cursor-pointer py-4 px-6 rounded-full"
+        className="text-secondary bg-primary hover:text-primary hover:bg-secondary hover:border hover:border-primary cursor-pointer py-4 px-6 rounded-full"
         onClick={handleLoggout}
       >
         <span className="text-2xl">LOGOUT</span>
