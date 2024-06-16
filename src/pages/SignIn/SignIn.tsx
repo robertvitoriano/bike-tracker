@@ -11,6 +11,10 @@ import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { useAuthStore } from "@/lib/store/authStore";
 import { getProfile } from "@/api/get-profile";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
+import { Device } from "@capacitor/device";
+import { env } from "../../../env";
+
 const signInForm = z.object({
   email: z.string(),
   password: z.string(),
@@ -28,6 +32,12 @@ export const SignIn = () => {
     enabled: !!token,
   });
   useEffect(() => {
+    GoogleAuth.initialize({
+      clientId: env.VITE_GOOGLE_CLIENT_ID,
+      scopes: ["profile", "email"],
+      grantOfflineAccess: true,
+    });
+
     verifyGoogleLogin();
   }, []);
 
@@ -61,6 +71,22 @@ export const SignIn = () => {
       console.error(error);
     }
   }
+  async function handleSignInGoogleAndroid() {
+    const response = await GoogleAuth.signIn();
+    console.log(response);
+  }
+
+  async function handleGoogleLogin() {
+    const info = await Device.getInfo();
+    const platform = info.platform;
+    if (platform === "android") {
+      await handleSignInGoogleAndroid();
+    }
+    if (platform === "web") {
+      await signInGoogleFn();
+    }
+  }
+
   function handleGoogleLoginSuccess() {
     if (profile) {
       setLoggedUser(profile);
@@ -99,7 +125,7 @@ export const SignIn = () => {
       </form>
       <div
         className="p-4 flex gap-4 items-center bg-white rounded-full cursor-pointer"
-        onClick={() => signInGoogleFn()}
+        onClick={handleGoogleLogin}
       >
         <img src={googleIcon} className="h-8 w-8 rounded-full" />
         <span>Continue with Google</span>
