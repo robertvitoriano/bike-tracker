@@ -13,7 +13,8 @@
     "show-logs": "logkitty android 'console.log'",
     "build-android": "ionic capacitor build android",
     "deploy": "npm run build && aws s3 sync dist/ s3://biketracker-web --acl public-read",
-    "update-icon-and-splash": "npx capacitor-assets generate"
+    "update-icon-and-splash": "npx capacitor-assets generate",
+    "view-keystore":"keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore"
   },
   "dependencies": {
     "@capacitor/android": "^6.0.0",

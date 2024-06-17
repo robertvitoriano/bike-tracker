@@ -1,5 +1,9 @@
 {
   "appId": "io.ionic.starter",
   "appName": "biketracker",
-  "webDir": "dist"
+  "webDir": "dist",
+  "plugins": {
+    "scopes":["profile","email"],
+    "forceCodeForRefreshToken":true
+  }
 }

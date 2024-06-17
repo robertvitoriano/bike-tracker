@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { useAuthStore } from "@/lib/store/authStore";
 import { getProfile } from "@/api/get-profile";
+import { signInLoginAndroid } from "@/api/sign-in-google-android";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { Device } from "@capacitor/device";
 import { env } from "../../../env";
@@ -31,6 +32,7 @@ export const SignIn = () => {
     queryFn: getProfile,
     enabled: !!token,
   });
+
   useEffect(() => {
     GoogleAuth.initialize({
       clientId: env.VITE_GOOGLE_CLIENT_ID,
@@ -54,8 +56,13 @@ export const SignIn = () => {
   const { mutateAsync: signFn } = useMutation({
     mutationFn: signIn,
   });
+
   const { mutateAsync: signInGoogleFn } = useMutation({
     mutationFn: signInGoogle,
+  });
+
+  const { mutateAsync: signInLoginAndroidFn } = useMutation({
+    mutationFn: signInLoginAndroid,
   });
 
   const navigate = useNavigate();
@@ -71,9 +78,20 @@ export const SignIn = () => {
       console.error(error);
     }
   }
+
   async function handleSignInGoogleAndroid() {
-    const response = await GoogleAuth.signIn();
-    console.log(response);
+    try {
+      const googleResponse = await GoogleAuth.signIn();
+
+      //@ts-ignore
+      const googleToken = googleResponse.authentication.accessToken;
+      console.log("MEU TOKEN 0 " + googleToken);
+      console.log("MINHA URL BACKEND É " + env.VITE_API_URL);
+      await signInLoginAndroidFn({ googleToken });
+      navigate("/");
+    } catch (error) {
+      console.error("Google Sign-In Error:" + JSON.stringify(error));
+    }
   }
 
   async function handleGoogleLogin() {
@@ -101,6 +119,7 @@ export const SignIn = () => {
       setToken(token);
     }
   }
+
   return (
     <div className="w-full h-fit flex justify-center items-center flex-col gap-8">
       <h1 className="text-white font-bold text-2xl">
@@ -131,7 +150,7 @@ export const SignIn = () => {
         <span>Continue with Google</span>
       </div>
       <span
-        className=" cursor-pointer text-white hover:underline"
+        className="cursor-pointer text-white hover:underline"
         onClick={() => navigate("/sign-up")}
       >
         Don't have an account yet ? click here to sign up!
