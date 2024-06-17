@@ -85,8 +85,6 @@ export const SignIn = () => {
 
       //@ts-ignore
       const googleToken = googleResponse.authentication.accessToken;
-      console.log("MEU TOKEN 0 " + googleToken);
-      console.log("MINHA URL BACKEND É " + env.VITE_API_URL);
       await signInLoginAndroidFn({ googleToken });
       navigate("/");
     } catch (error) {
