@@ -1,7 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-import { Header } from "./Header";
 import { BottomNavigation } from "./BottomNavigation";
 import { useAuthStore } from "@/lib/store/authStore";
 
