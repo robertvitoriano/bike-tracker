@@ -58,6 +58,9 @@ export function Explore() {
   const selectSavedTrack = useUserTrackStore(
     (state: any) => state.selectSavedTrack,
   );
+  const cleanSelectedTrack = useUserTrackStore(
+    (state: any) => state.cleanSelectedTrack,
+  );
 
   const { exploreMap } = useMap();
   const { data: userLocations, isLoading: isLoadingUserLocations } = useQuery({
@@ -119,10 +122,14 @@ export function Explore() {
         return <FontAwesomeIcon icon={faFlagCheckered} className="h-8" />;
     }
   }
+  
+  function handleSavedTrackClose(){
+    cleanSelectedTrack()
+  }
 
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
-      {!displayTrackSavingPopOver && !openSavedTracksDrawer && (
+      {!displayTrackSavingPopOver && !openSavedTracksDrawer && !selectedSaveTrack && (
         <div
           onClick={() => setOpenSavedTracksDrawer(true)}
           className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50"
@@ -130,6 +137,13 @@ export function Explore() {
           <h1>Open saved Tracks</h1>
         </div>
       )}
+      {selectedSaveTrack && <div
+          onClick={() => setOpenSavedTracksDrawer(true)}
+          className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50"
+        >
+          <h1>{selectedSaveTrack.title}</h1>
+          <div className="underline cursor-pointer" onClick={handleSavedTrackClose}>Close</div>
+        </div>}
       <SavedTracksDrawer
         open={openSavedTracksDrawer}
         handleSavedTrackSelection={handleSavedTrackSelection}

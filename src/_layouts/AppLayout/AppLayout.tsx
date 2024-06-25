@@ -16,7 +16,7 @@ export function AppLayout() {
   const navigate = useNavigate();
   return (
     <div className="flex min-h-screen flex-col relative overflow-hidden">
-      <Header />
+      {/* <Header /> */}
       <div className="flex flex-col">
         <Outlet />
       </div>
