@@ -31,35 +31,35 @@ export function Explore() {
   const [initialState, setInitialState] = useState({});
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [selectedLayer, setSelectedLayer] = useState<mapStyleType>(
-    layers.STREET.url,
+    layers.STREET.url
   );
   const [openSavedTracksDrawer, setOpenSavedTracksDrawer] =
     useState<boolean>(false);
   const [savedTrackSelected, setSavedTrackSelected] = useState(false);
 
   const userCurrentPosition = useUserTrackStore(
-    (state: any) => state.userCurrentPosition,
+    (state: any) => state.userCurrentPosition
   );
   const setUserCurrentPosition = useUserTrackStore(
-    (state: any) => state.setUserCurrentPosition,
+    (state: any) => state.setUserCurrentPosition
   );
   const toggleUserLocationMarker = useUserTrackStore(
-    (state: any) => state.toggleUserLocationMarker,
+    (state: any) => state.toggleUserLocationMarker
   );
   const isUserLocationMarkerShowing = useUserTrackStore(
-    (state: any) => state.isUserLocationMarkerShowing,
+    (state: any) => state.isUserLocationMarkerShowing
   );
   const displayTrackSavingPopOver = useDialogStore(
-    (state: any) => state.displayTrackSavingPopOver,
+    (state: any) => state.displayTrackSavingPopOver
   );
   const selectedSaveTrack = useUserTrackStore(
-    (state: any) => state.selectedSaveTrack,
+    (state: any) => state.selectedSaveTrack
   );
   const selectSavedTrack = useUserTrackStore(
-    (state: any) => state.selectSavedTrack,
+    (state: any) => state.selectSavedTrack
   );
   const cleanSelectedTrack = useUserTrackStore(
-    (state: any) => state.cleanSelectedTrack,
+    (state: any) => state.cleanSelectedTrack
   );
 
   const { exploreMap } = useMap();
@@ -107,8 +107,20 @@ export function Explore() {
     setOpenSavedTracksDrawer(false);
   }
 
-  function renderLocationIconBasedOnType(type): any {
-    switch (type) {
+  function areCoordinatesEqual(
+    coord1: number[],
+    coord2: number[],
+    epsilon = 1e-6
+  ): boolean {
+    if (!coord1 || !coord2) return false;
+    const latEqual = Math.abs(coord1[0] - coord2[0]) < epsilon;
+    const longEqual = Math.abs(coord1[1] - coord2[1]) < epsilon;
+
+    return latEqual && longEqual;
+  }
+
+  function renderLocationIconBasedOnType(location): any {
+    switch (location.type) {
       case "generic":
         return (
           <FontAwesomeIcon
@@ -117,33 +129,52 @@ export function Explore() {
           />
         );
       case "track-finish":
-        return <img src={trackFinishIcon} className="h-8" />;
+        if (
+          areCoordinatesEqual(
+            location?.coordinates,
+            selectedSaveTrack?.coordinates[
+              selectedSaveTrack?.coordinates.length - 1
+            ]
+          )
+        ) {
+          return <img src={trackFinishIcon} className="h-8" />;
+        }
+        break;
       case "track-start":
         return <FontAwesomeIcon icon={faFlagCheckered} className="h-8" />;
     }
   }
-  
-  function handleSavedTrackClose(){
-    cleanSelectedTrack()
+
+  function handleSavedTrackClose() {
+    cleanSelectedTrack();
   }
 
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center relative">
-      {!displayTrackSavingPopOver && !openSavedTracksDrawer && !selectedSaveTrack && (
+      {!displayTrackSavingPopOver &&
+        !openSavedTracksDrawer &&
+        !selectedSaveTrack && (
+          <div
+            onClick={() => setOpenSavedTracksDrawer(true)}
+            className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50"
+          >
+            <h1>Open saved Tracks</h1>
+          </div>
+        )}
+      {selectedSaveTrack && (
         <div
           onClick={() => setOpenSavedTracksDrawer(true)}
           className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50"
         >
-          <h1>Open saved Tracks</h1>
+          <h1>{selectedSaveTrack.title}</h1>
+          <div
+            className="underline cursor-pointer"
+            onClick={handleSavedTrackClose}
+          >
+            Close
+          </div>
         </div>
       )}
-      {selectedSaveTrack && <div
-          onClick={() => setOpenSavedTracksDrawer(true)}
-          className="bg-primary text-white font-bold rounded-xl p-4 flex flex-col gap-4 items-center absolute top-20 left-auto z-50"
-        >
-          <h1>{selectedSaveTrack.title}</h1>
-          <div className="underline cursor-pointer" onClick={handleSavedTrackClose}>Close</div>
-        </div>}
       <SavedTracksDrawer
         open={openSavedTracksDrawer}
         handleSavedTrackSelection={handleSavedTrackSelection}
@@ -194,7 +225,7 @@ export function Explore() {
                 longitude={location.coordinates[0]}
                 latitude={location.coordinates[1]}
               >
-                <div>{renderLocationIconBasedOnType(location.type)}</div>
+                <div>{renderLocationIconBasedOnType(location)}</div>
               </MapMarker>
             ))}
           <NavigationControl
