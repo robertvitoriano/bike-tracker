@@ -14,5 +14,5 @@ export async function signUp({ email, password, name, username }: signUpBody) {
     username,
   });
   useAuthStore.getState().setToken(signUpResponse.data.token);
-  useAuthStore.getState().setLoggedUser(signUpResponse.data.token);
+  useAuthStore.getState().setLoggedUser(signUpResponse.data.user);
 }
