@@ -5,6 +5,7 @@ type User = {
   username: string;
   email: string;
   avatar: string;
+  weight: number;
 };
 
 export async function getProfile(): Promise<User> {

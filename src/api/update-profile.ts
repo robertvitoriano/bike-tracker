@@ -1,6 +1,14 @@
 import { api } from "@/lib/axios";
-
-export async function updateProfile(weight: number) {
-  const profileUpdateResponse = await api.patch(`/users`, { weight });
-  console.log(profileUpdateResponse);
+export interface IProfile {
+  name: string;
+  username: string;
+  weight: number;
+}
+export async function updateProfile(data: {
+  name: string;
+  username: string;
+  weight: number;
+}) {
+  const profileUpdateResponse = await api.patch<IProfile>(`/users`, data);
+  return profileUpdateResponse;
 }
